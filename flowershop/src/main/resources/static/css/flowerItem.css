@@ -1,0 +1,13 @@
+.pagination-wrapper{
+    width:100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.select-form{
+    padding-bottom: 30px;
+}
+
+.flower-item-custom{
+    padding-bottom: 10px;
+}

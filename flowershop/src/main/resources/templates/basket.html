@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: common-header"></head>
+
+<body>
+<div th:replace="common/header :: navbar"></div>
+<div class="container">
+    <div class="row" style="margin-bottom: -100px">
+        <div class="col-xs-8">
+            <h2 class="section-headline">
+                <span th:text="${user} ? ${#strings.toUpperCase(user.username)} : 'All Items'"></span>
+            </h2>
+        </div>
+        <div class="col-xs-4">
+            <img src="image/logo1.jpg" class="img-responsive">
+        </div>
+    </div>
+    <hr style="position: absolute; width: 75%; height: 6px; background-color: #1b6d85; z-index: -1; margin-top: -80px;"/>
+    <img class="img-responsive" src="image/flower1.jpg" style="margin-top: -75px;">
+
+    <div class="row" style="margin-top: 20px">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-6 text-left">
+                    <a class="btn btn-warning" th:href="@{/itemPage}">Continue Shopping</a>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <a class="btn btn-primary" th:href="@{/checkout(id=${basket.id})}">Check Out</a>
+                </div>
+                <br/>
+                <div th:if="${notEnoughStorage}" class="alert alert-warning">
+                    Oooops, some of the products don't have enough count in storage. Please update product quantity
+                </div>
+                <div th:if="${emptyBasket}" class="alert alert-warning">
+                    Oooops, your basket is empty. See if you can find what you like in the Flower List
+                </div>
+                <div th:if="${removeItem}" class="alert alert-success">
+                    Item is successfully removed
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-xs-8"><h4 class="center-block">Products</h4></div>
+                    <div class="col-xs-2"><h4>Price</h4></div>
+                    <div class="col-xs-2"><h4>Count</h4></div>
+                </div>
+
+                <!--Display Flowers in Cart-->
+                <div class="row" th:each="basketFlower : ${basketFlowerList}">
+                    <form th:action="@{/basketUpdate}" method="post">
+                        <hr/>
+                        <div class="col-xs-2">
+                            <a th:href="@{/flowerDetail(id=${basketFlower.flower.id})}">
+                                <img style="width: 80px" class="img-responsive flower"
+                                     th:attr="src=@{'/image/flower/' + ${basketFlower.flower.flowerImage}}">
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="center-block">
+                                <a th:href="@{/flowerDetail?id=}+${basketFlower.flower.id}"><h4 th:text="${basketFlower.flower.name}"></h4></a>
+                                <p th:if="${basketFlower.flower.storage.count&gt;14}" style="color: green">In
+                                    Storage</p>
+                                <p th:if="${basketFlower.flower.storage.count&lt;14 and basketFlower.flower.storage.count&gt;0}"
+                                   style="color: green">
+                                    Only <span th:text="${basketFlower.flower.storage.count}"></span> In Storage</p>
+                                <p th:if="${basketFlower.flower.storage.count==0}" style="color: darkred">Product
+                                    unavailable</p>
+                                <a th:href="@{/removeItem?id=}+${basketFlower.id}">Delete</a>
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <h5 style="color: orangered; font-size: large">Br<span
+                                    th:text="${basketFlower.flower.price}"
+                                    th:style="${basketFlower.flower.storage.count}==0 ? 'text-decoration: line-through' : ''"></span>
+                            </h5>
+                        </div>
+                        <div class="col-xs-2">
+                            <input hidden="hidden" name="id" th:value="${basketFlower.id}"/>
+                            <input th:id="${basketFlower.id}" th:name="count"
+                                   th:disabled="${basketFlower.flower.storage.count==0}"
+                                   class="form-control basketFlowerCount" th:value="${basketFlower.count}"/>
+                            <button style="display: none;" th:id="'update-item-'+${basketFlower.id}" type="submit"
+                                    class="btn btn-warning btn-xs">Update
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="row">
+                    <hr/>
+                    <h4 class="col-xs-12 text-right"><strong style="font-size: large">Total Price</strong>
+                        <span style="color: orangered; font-size: large">Br<span
+                                th:text="${basket.totalCost}"></span></span></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

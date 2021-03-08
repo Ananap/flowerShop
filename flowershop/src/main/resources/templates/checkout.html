@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: common-header">
+</head>
+
+<body>
+<div th:replace="common/header :: navbar"></div>
+<div class="container">
+    <div class="row" style="margin-bottom: -100px">
+        <div class="col-xs-8">
+            <h2 class="section-headline"><span>User Account</span></h2>
+        </div>
+        <div class="col-xs-4">
+            <img src="image/logo1.jpg" class="img-responsive">
+        </div>
+    </div>
+    <hr style="position: absolute; width: 75%; height: 6px; background-color: #1b6d85; z-index: -1; margin-top: -80px;"/>
+    <img class="img-responsive" src="image/flower1.jpg" style="margin-top: -75px;">
+
+    <div class="row" style="margin-top: 10px">
+        <form th:action="@{/checkout}" method="post">
+            <!--Left Panel-->
+            <div class="col-xs-4">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <button type="submit" class="btn btn-warning btn-block">Place your order</button>
+                        <p style="font-size: smaller">By placing your order, you agree to My FlowerShop
+                            privacy notice and conditions of use</p>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-xs-7 text-left">
+                                <h3 style="color: darkred"><strong>Order Total:</strong></h3>
+                            </div>
+                            <div class="col-xs-5 text-right">
+                                <h3><strong style="color: darkred">Br <span
+                                        th:text="${basket.totalCost}"></span></strong></h3>
+                            </div>
+                        </div>
+                        <div class="panel-footer">Address and payment have nat applied</div>
+                    </div>
+                </div>
+            </div>
+
+            <!--CheckOut INFO-->
+            <div class="col-xs-8">
+                <div th:if="${missingRequiredField}">
+                    <h5 class="alert alert-warning">There are some fields misssing</h5>
+                </div>
+                <div class="panel-group" id="accordeon">
+                    <!--1. Address-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordeon" href="#addressInfo">
+                                    1. Address and Date
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="addressInfo" class="panel-collapse collapse"
+                             th:classappend="${classActiveAddress} ? 'in'">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <input type="text" class="form-control" id="address" name="address"
+                                           th:value="${user.userInfo.address}"/>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <label for="date">Date of delivery</label>
+                                            <input type="date" class="form-control" id="date" name="date"
+                                                   value="2021-02-15" max="2021-05-15" min="2021-02-15"/>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <label for="time">Time of delivery</label>
+                                            <select id="time" name="time" class="form-control">
+                                                <option value="" selected="selected" disabled="disabled">Please select
+                                                    Time of delivery
+                                                </option>
+                                                <option value="C 9:00 до 12:00">C 9:00 до 12:00</option>
+                                                <option value="C 15:00 до 18:00">C 15:00 до 18:00</option>
+                                                <option value="C 18:00 до 21:00">C 18:00 до 21:00</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-toggle="collapse" data-parent="#accordeon" class="btn btn-warning pull-right"
+                                   href="#paymentInfo">Next</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--2. Payment information-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordeon" href="#paymentInfo">
+                                    2. Payment Information
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="paymentInfo" class="panel-collapse collapse"
+                             th:classappend="${classActivePayment} ? 'in'">
+                            <div class="panel-body">
+                                <table class="table" th:if="${not emptyPaymentList}">
+                                    <thead>
+                                    <tr>
+                                        <th>Available credit card</th>
+                                        <th>Operations</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="userPayment : ${paymentList}">
+                                        <td th:value="${userPayment.cardName}" th:text="${userPayment.cardName}">
+                                        </td>
+                                        <td><a
+                                                th:href="@{/setPaymentMethod(userPaymentId=${userPayment.id})}"> use
+                                            this payment</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <!--Credit card info-->
+                                <div th:if="emptyPaymentList" class="row">
+                                    <label>Payment with cash?</label>
+                                    <br/>
+                                    <label for="yes">Yes</label>
+                                    <input value="yes" id="yes" type="radio" name="cash" onclick="aa(this.checked)"/>
+                                    <br/>
+                                    <label for="no">No</label>
+                                    <input id="no" type="radio" value="" name="cash" onclick="ab(this.checked)"/>
+                                    <div class="col-xs-12">
+                                        <img th:src="@{image/creditcard.png}" class="img-responsive"/><br/>
+                                        <input th:if="${not emptyPaymentList}" hidden="hidden" th:name="id" th:value="${userPayment.id}" />
+                                        <div class="form-group">
+                                            <label for="cardType1">Select Card Type</label>
+                                            <select class="form-control" id="cardType1" th:name="type"
+                                                    th:value="${userPayment.type}">
+                                                <option selected disabled>-- Card Type --</option>
+                                                <option th:selected="${userPayment.type}=='visa'" value="visa">Visa
+                                                </option>
+                                                <option th:selected="${userPayment.type}=='mastercard'"
+                                                        value="mastercard">Mastercard
+                                                </option>
+                                                <option th:selected="${userPayment.type}=='belcard'" value="belcard">
+                                                    Белкарт
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cardHolder1">* Card Holder Name</label>
+                                            <input type="text" class="form-control" id="cardHolder1"
+                                                   required="required"
+                                                   placeholder="Card Holder Name" th:name="holderName"
+                                                   th:value="${userPayment.holderName}"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cardNumber1">* Card Number</label>
+                                            <div class="input-group">
+                                                <input type="tel" class="form-control" id="cardNumber1"
+                                                       required="required"
+                                                       placeholder="Valid card number" th:name="cardNumber"
+                                                       th:value="${userPayment.cardNumber}"/>
+                                                <span class="input-group-addon"><i class="fa fa-credit-card"
+                                                                                   aria-hidden="true"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-7">
+                                        <div class="form-group">
+                                            <label>* Expiration Date</label>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <select id="expiryMonth1" class="form-control" name="expiryMonth"
+                                                            required="required"
+                                                            th:value="${userPayment.expiryMonth}">
+                                                        <option selected="selected" disabled="disabled">-- Month --
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryMonth}=='1')"
+                                                                value="1">Jan (01)
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryMonth}=='2')"
+                                                                value="2">Feb (02)
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryMonth}=='3')"
+                                                                value="3">Mar (03)
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryMonth}=='4')"
+                                                                value="4">Apr (04)
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryMonth}=='5')"
+                                                                value="5">May (05)
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryMonth}=='6')"
+                                                                value="6">June (06)
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryMonth}=='7')"
+                                                                value="7">July (07)
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryMonth}=='8')"
+                                                                value="8">Aug (08)
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryMonth}=='9')"
+                                                                value="9">Sep (09)
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryMonth}=='10')"
+                                                                value="10">Oct (10)
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryMonth}=='11')"
+                                                                value="11">Nov (11)
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryMonth}=='12')"
+                                                                value="12">Dec (12)
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <select id="expiryYear1" class="form-control" name="expiryYear"
+                                                            th:value="${userPayment.expiryYear}">
+                                                        <option selected="selected" disabled="disabled">-- Year --
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryYear}=='2021')"
+                                                                value="2021">2021
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryYear}=='2022')"
+                                                                value="2022">2022
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryYear}=='2023')"
+                                                                value="2023">2023
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryYear}=='2024')"
+                                                                value="2024">2024
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryYear}=='2025')"
+                                                                value="2025">2025
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryYear}=='2026')"
+                                                                value="2026">2026
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryYear}=='2027')"
+                                                                value="2027">2027
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryYear}=='2028')"
+                                                                value="2028">2028
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryYear}=='2029')"
+                                                                value="2029">2029
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryYear}=='2030')"
+                                                                value="2030">2030
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryYear}=='2031')"
+                                                                value="2031">2031
+                                                        </option>
+                                                        <option th:selected="(${userPayment.expiryYear}=='2032')"
+                                                                value="2032">2032
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <div class="form-group">
+                                            <label for="cardCVC1">CV Code</label>
+                                            <input id="cardCVC1" type="tel" class="form-control" name="cvc"
+                                                   placeholder="CVC" th:name="cvc"
+                                                   th:value="${userPayment.cvc}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a data-toggle="collapse" data-parent="#accordeon"
+                                   class="btn btn-warning pull-right" href="#reviewItems">Next</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--3. Review Items and Address-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordeon" href="#reviewItems">
+                                    3. Review Items
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="reviewItems" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-8"><h4>Items</h4></div>
+                                    <div class="col-xs-2"><h4>Price</h4></div>
+                                    <div class="col-xs-2"><h4>Amount</h4></div>
+                                </div>
+                                <!--Display items in basket-->
+                                <div class="row" th:each="basketFlower : ${basketFlowerList}">
+                                    <hr/>
+                                    <div class="col-xs-2">
+                                        <a th:href="@{flowerDetail(id=${basketFlower.flower.id})}">
+                                            <img style="width: 70px;" class="img-responsive"
+                                                 th:attr="src=@{'/image/flower/' + ${basketFlower.flower.flowerImage}}"/>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="center-block">
+                                            <a th:href="@{/flowerDetail?id=}+${basketFlower.flower.id}"><h4
+                                                    th:text="${basketFlower.flower.name}"></h4></a>
+                                            <p th:if="${basketFlower.flower.storage.count&gt;14}"
+                                               style="color: green">In
+                                                Storage</p>
+                                            <p th:if="${basketFlower.flower.storage.count&lt;14 and basketFlower.flower.storage.count&gt;0}"
+                                               style="color: green">
+                                                Only <span th:text="${basketFlower.flower.storage.count}"></span> In
+                                                Storage</p>
+                                            <p th:if="${basketFlower.flower.storage.count==0}"
+                                               style="color: darkred">Product
+                                                unavailable</p>
+                                            <a th:href="@{/removeItem?id=}+${basketFlower.id}">Delete</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <h5 style="color: orangered; font-size: large">Br<span
+                                                th:text="${basketFlower.flower.price}"
+                                                th:style="${basketFlower.flower.storage.count}==0 ? 'text-decoration: line-through' : ''"></span>
+                                        </h5>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <h5 style="font-size: large" th:text="${basketFlower.count}"></h5>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <h4 class="col-xs-12 text-right"><strong style="font-size: large">Order Total</strong>
+                                    <span style="color: orangered; font-size: large">Br<span
+                                            th:text="${basket.totalCost}"></span></span>
+                                </h4>
+                                <br/><br/>
+                                <button type="submit" class="btn btn-warning btn-block">Place your order</button>
+                                <p style="font-size: smaller">By placing your order, you agree to My FlowerShop
+                                    privacy notice and conditions of use</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function aa(Type){
+        document.getElementById('cardHolder1').disabled=Type;
+        document.getElementById('cardType1').disabled=Type;
+        document.getElementById('cardCVC1').disabled=Type;
+        document.getElementById('cardNumber1').disabled=Type;
+        document.getElementById('expiryYear1').disabled=Type;
+        document.getElementById('expiryMonth1').disabled=Type;
+    }
+    function ab(Type){
+        document.getElementById('cardHolder1').disabled=!Type;
+        document.getElementById('cardType1').disabled=!Type;
+        document.getElementById('cardCVC1').disabled=!Type;
+        document.getElementById('cardNumber1').disabled=!Type;
+        document.getElementById('expiryYear1').disabled=!Type;
+        document.getElementById('expiryMonth1').disabled=!Type;
+    }
+</script>
+
+</body>
+</html>

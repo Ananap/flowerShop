@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: common-header">
+</head>
+
+<body>
+<div th:replace="common/header :: navbar"></div>
+<div class="container">
+    <div class="row" style="margin-bottom: -100px">
+        <div class="col-xs-8">
+            <h2 class="section-headline"><span>User Account</span></h2>
+        </div>
+        <div class="col-xs-4">
+            <img src="image/logo1.jpg" class="img-responsive">
+        </div>
+    </div>
+    <hr style="position: absolute; width: 75%; height: 6px; background-color: #1b6d85; z-index: -1; margin-top: -80px;"/>
+    <img class="img-responsive" src="image/flower1.jpg" style="margin-top: -75px;">
+
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-xs-12">
+            <div class="alert alert-success">
+                <h3><img style="width: 45px;" class="img-thumbnail" src="image/greencheck.jpg">
+                    Thank you, your order has been placed</h3>
+                <h4>The delivery date is <span th:text="${order.dateDelivery}"></span></h4>
+                <h4>The delivery time is <span th:text="${order.timeOrder}"></span></h4>
+            </div>
+            <h3>List items</h3>
+            <div class="row" th:each="orderFlower : ${orderFlowerList}">
+                <hr/>
+                <div class="col-xs-2"></div>
+                <div class="col-xs-2">
+                    <a th:href="@{flowerDetail(id=${orderFlower.flower.id})}">
+                        <img style="width: 70px;" class="img-responsive"
+                             th:attr="src=@{'/image/flower/' + ${orderFlower.flower.flowerImage}}"/>
+                    </a>
+                </div>
+                <div class="col-xs-6">
+                    <div class="center-block">
+                        <a th:href="@{/flowerDetail?id=}+${orderFlower.flower.id}"><h4
+                                th:text="${orderFlower.flower.name}"></h4></a>
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <h5 style="color: orangered; font-size: large">Br<span
+                            th:text="${orderFlower.flower.price}"
+                            th:style="${orderFlower.flower.storage.count}==0 ? 'text-decoration: line-through' : ''"></span>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

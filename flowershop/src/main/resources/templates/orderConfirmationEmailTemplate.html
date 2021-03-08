@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.css" rel="stylesheet"/>
+    <!-- Custom styles -->
+    <link href="css/style.css" rel="stylesheet"/>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <p>Dear <span th:text="${user.username}"></span>,</p>
+    <p>Thank you for shopping from My FlowerShop. We hope you have a good time with my service</p>
+    <p>Your order number is: <strong>#<span th:text="${order.id}"></span></strong>. Here is your order detail: </p>
+    <hr/>
+    <table>
+        <tr>
+            <th>Address detail</th>
+            <th>Payment Information</th>
+            <th>Date Delivery</th>
+        </tr>
+        <tr>
+            <td>
+                <span th:text="${order.address}"></span><br/>
+            </td>
+            <td>
+                <span th:if="${cash}">Cash</span><br/>
+                <span th:if="${!cash}" th:text="${order.payment.holderName}"></span><br/>
+                <span th:if="${!cash}" th:text="${order.payment.type}"></span><br/>
+                <span th:if="${!cash}" th:text="${order.payment.cardNumber}"></span><br/>
+                <span th:if="${!cash}" th:text="${order.payment.expiryMonth}"></span><br/>
+                <span th:if="${!cash}" th:text="${order.payment.expiryYear}"></span><br/>
+            </td>
+            <td>
+                <span th:text="${order.dateDelivery}"></span><br/>
+                <span th:text="${order.timeOrder}"></span><br/>
+            </td>
+        </tr>
+    </table>
+
+    <h3><strong>Order Summary</strong></h3>
+    <table>
+        <thead>
+        <tr>
+            <td><strong>Item name</strong></td>
+            <td class="text-center"><strong>Item price</strong></td>
+            <td class="text-center"><strong>Item quantity</strong></td>
+            <td class="text-right"><strong>SubTotal</strong></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="orderFlower : ${orderFlowerList}">
+            <td><span data-th-text="${orderFlower.flower.name}"></span></td>
+            <td class="text-center" data-th-text="${orderFlower.flower.price}"></td>
+            <td class="text-center" data-th-text="${orderFlower.count}"></td>
+            <td class="text-right" data-th-text="${orderFlower.subTotal}"></td>
+        </tr>
+        <tr>
+            <td class="highrow"></td>
+            <td class="highrow"></td>
+            <td class="highrow text-center"><strong>Total</strong></td>
+            <td class="highrow text-right" data-th-text="${order.totalCost}"></td>
+        </tr>
+        </tbody>
+    </table>
+<br/>
+    <p>Best,</p>
+    <p>My FlowerShop</p>
+    <p>Since 2021</p>
+</body>
+</html>

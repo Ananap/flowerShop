@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: common-header"></head>
+
+<body>
+<div th:replace="common/header :: navbar"></div>
+<div class="container">
+    <div class="row" style="margin-bottom: -100px">
+        <div class="col-xs-8">
+            <h2 class="section-headline">
+                <span th:text="${user} ? ${#strings.toUpperCase(user.username)} : 'All Items'"></span>
+            </h2>
+        </div>
+        <div class="col-xs-4">
+            <img src="image/logo1.jpg" class="img-responsive">
+        </div>
+    </div>
+    <hr style="position: absolute; width: 75%; height: 6px; background-color: #1b6d85; z-index: -1; margin-top: -80px;"/>
+    <img class="img-responsive" src="image/flower1.jpg" style="margin-top: -75px;">
+
+    <form th:action="@{/addItemToBasket}" method="post">
+        <input hidden="hidden" name="id" th:value="${flower.id}" />
+        <div class="row" style="margin-top: 120px;">
+            <div class="col-xs-3">
+                <a th:href="@{/itemPage}">Back to Flower List</a><br/>
+                <img class="img-responsive page-flower" th:attr="src=@{'/image/flower/' + ${flower.flowerImage}}" />
+            </div>
+
+            <div class="col-xs-9">
+                <div class="alert alert-success" th:if="${addFlowerSuccess}">An item has been added to your shopping basket</div>
+                <div class="alert alert-warning" th:if="${notEnoughStorage}">Oooops, some of the products don't have enough count in storage. Please update product quantity</div>
+                <h3 th:text="${flower.name}">Flower Name</h3>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <h5><strong>Category: </strong><span th:text="${flowerType.description}"></span></h5>
+                        <h5><strong>Soil: </strong><span th:text="${flower.soil.getValue()}"></span></h5>
+                        <h5><strong>Watering: </strong><span th:text="${flower.watering} + ' Мл в неделю'"></span></h5>
+                        <h5><strong>Country: </strong><span th:text="${flower.originCountry}"></span></h5>
+                        <h5><strong>Light: </strong><span th:text="${flower.light} ? 'светолюбивое' : 'темнолюбивое'"></span></h5>
+                    </div>
+                    <div class="col-xs-7">
+                        <div class="panel panel-default" style="border-width: 5px; margin-top: 20px;">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h4>Price: <span style="color: darkorange;">Br<span th:text="${flower.price}"></span></span></h4>
+                                        <span>Amount: </span>
+                                        <input th:value="${amount}" type="number" step="1"
+                                               class="form-control" name="amount" min="1"
+                                               placeholder="Amount"/>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <h4 th:if="*{storage.count&gt;11}" style="color: green">In Storage</h4>
+                                        <h4 th:if="*{storage.count&lt;11}" style="color: green">Only <span th:text="${storage.count}"> In Storage</span></h4>
+                                        <h4 th:if="*{storage.count==0}" style="color: darkred">Unavailable</h4>
+                                        <button type="submit" class="btn btn-warning" style="color: black; border: 1px solid black; padding: 10px 40px 10px 40px;">Add to Basket</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <p th:text="${flower.description}"></p>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
