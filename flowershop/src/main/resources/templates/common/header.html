@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with="lang=${#locale.language}" th:lang="${lang}">
 <head th:fragment="common-header">
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <title>MY FLOWERSHOP</title>
+    <title th:text="#{main.title}"></title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{css/bootstrap.css}" rel="stylesheet"/>
@@ -29,35 +29,45 @@
     <nav class="navbar navbar-default navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">MY FLOWERSHOP</a>
+                <a class="navbar-brand" href="/" th:utext="#{main.title}"></a>
             </div>
             <div id="navbar">
                 <ul class="nav navbar-nav navbar-left">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">Flowers <span class="caret"></span></a>
+                           aria-expanded="false" data-th-utext="#{main.catalog}"><span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a th:href="@{/itemPage}">List of flowers</a></li>
-                            <li><a href="">Store hours &#38; Directions</a></li>
-                            <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/addItem}">Add new Item</a></li>
-                            <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/flowerList}">View Flower List</a></li>
+                            <li><a th:href="@{/itemPage}" data-th-utext="#{main.flower.list}"></a></li>
+                            <li><a th:href="@{/direction}" data-th-utext="#{main.store.hour}"></a></li>
+                            <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/addItem}" data-th-utext="#{main.add.item}"></a></li>
+                            <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/flowerList}" data-th-utext="#{main.admin.flowerlist}"></a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-left">
                     <form th:action="@{/findItem}" method="get" class="navbar-form">
                         <div class="form-group">
-                            <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Flower title"/>
+                            <input type="text" id="keyword" name="keyword" class="form-control"
+                                   th:placeholder="#{main.flower.title}"/>
                         </div>
-                        <button type="submit" class="btn btn-default">Search</button>
+                        <button type="submit" class="btn btn-default" data-th-utext="#{main.search}"></button>
                     </form>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/portal}">Admin Portal</a></li>
-                    <li><a sec:authorize="hasRole('ROLE_USER')" th:href="@{/basket}">SHOPPING BASKET</a></li>
-                    <li><a sec:authorize="isAnonymous()" th:href="@{/login}">MY ACCOUNT</a></li>
-                    <li><a sec:authorize="hasRole('ROLE_USER')" th:href="@{/myProfile}">MY ACCOUNT</a></li>
-                    <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">LOGOUT</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false"><img class="image-header" src="image/lang.png" /><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="?lang=ru"><img class="image-header-dropdown" src="image/russia.png" /></a></li>
+                            <li><a href="?lang=en"><img class="image-header-dropdown" src="image/en.png" /></a></li>
+                        </ul>
+                    </li>
+                    <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/portal}" data-th-utext="#{main.admin.portal}"></a></li>
+                    <li><a sec:authorize="hasRole('ROLE_USER')" th:href="@{/basket}" data-th-utext="#{main.basket.title}"></a></li>
+                    <li><a sec:authorize="isAnonymous()" th:href="@{/login}" data-th-utext="#{main.account.title}"></a></li>
+                    <li><a sec:authorize="hasRole('ROLE_USER')" th:href="@{/myProfile}" data-th-utext="#{main.account.title}"></a></li>
+                    <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}" data-th-utext="#{main.logout}"></a></li>
                 </ul>
             </div>
         </div>

@@ -33,3 +33,11 @@ hr{
 .carousel-caption{
     font-size: 18px;
 }
+
+.image-header{
+    width: 30px;
+    filter: invert(100%);
+}
+.image-header-dropdown {
+    width: 30px;
+}

@@ -9,4 +9,9 @@ public class AuthController {
     public String index(){
         return "index";
     }
+
+    @GetMapping("/direction")
+    public String direction() {
+        return "direction";
+    }
 }
