@@ -4,16 +4,16 @@ The websystem provides an opportunity to buy flowers of various type. It works l
 # User roles
 + Guest
   + View information about available flowers
-+   Search for items by filters
-+   Authentication and authorization
-+   Registration
+  + Search for items by filters
+  + Authentication and authorization
+  + Registration
 + User
-+   Edit personal information in the profile
-+   View information about available flowers
-+   Search by filters and make an order for specific date
-+   Save credit cards
-+   View iformation about previous orders
+  + Edit personal information in the profile
+  + View information about available flowers
+  + Search by filters and make an order for specific date
+  + Save credit cards
+  + View iformation about previous orders
 + Admin
-+   Add and edit items
-+   Add new admins
-+   Change status of an order
+  + Add and edit items
+  + Add new admins
+  + Change status of an order
