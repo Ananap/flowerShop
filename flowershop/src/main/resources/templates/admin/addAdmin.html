@@ -1,0 +1,37 @@
+﻿<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: common-header"></head>
+
+<body>
+<div th:replace="common/header :: navbar"></div>
+<div class="container">
+    <div class="row">
+        <form class="form-horizontal" th:action="@{/createAdmin}" method="post" enctype="multipart/form-data">
+            <fieldset>
+                <legend class="center-block">Add New Admin</legend>
+                <div class="alert alert-info" th:if="${emailSent}">An email has been sent to the email address.</div>
+                <!--Username of Admin-->
+                <div class="form-group">
+                    <label for="username">Username: </label> <span style="color: red" th:if="${usernameExists}">Username already exists. Choose a different one.</span>
+                    <input required="required" type="text" class="form-control" id="username" name="username"/>
+                    <p style="color: gray">Enter your username</p>
+                </div>
+                <!--Email-->
+                <div class="form-group">
+                    <label for="email">Email: </label>&nbsp;<span style="color: red" th:if="${emailExists}">Email already exists. Choose a different one.</span>
+                    <input required="required" type="email" class="form-control" id="email" name="email" />
+                    <p style="color: gray">Enter valid email</p>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <button type="submit" class="btn btn-success">Add Admin</button>
+                        <a class="btn btn-danger" th:href="@{/}">Cancel</a>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+</body>
+</html>
