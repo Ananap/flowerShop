@@ -6,7 +6,7 @@ import by.panasenko.flowershop.model.security.PasswordToken;
 public interface UserService {
     PasswordToken getPasswordToken(String token);
     void createPasswordTokenForUser(User user, String token);
-    User createUser (String username, String email, String password);
+    User createUser (String username, String email, String password, String roleName);
     User findByEmail (String email);
     void saveUser (User user);
     User findByUsername(String username);

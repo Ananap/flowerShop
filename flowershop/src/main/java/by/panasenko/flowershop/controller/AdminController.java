@@ -3,12 +3,11 @@ package by.panasenko.flowershop.controller;
 import by.panasenko.flowershop.exception.ShopException;
 import by.panasenko.flowershop.model.FlowerType;
 import by.panasenko.flowershop.model.Storage;
+import by.panasenko.flowershop.model.User;
 import by.panasenko.flowershop.model.product.Flower;
 import by.panasenko.flowershop.model.product.FlowerPageCriteria;
 import by.panasenko.flowershop.model.product.FlowerSearchCriteria;
-import by.panasenko.flowershop.service.FlowerService;
-import by.panasenko.flowershop.service.FlowerTypeService;
-import by.panasenko.flowershop.service.StorageService;
+import by.panasenko.flowershop.service.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,7 @@ import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -44,10 +44,43 @@ public class AdminController {
     @Autowired
     private StorageService storageService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private MailSender mailSender;
+
     @GetMapping("/allOrderInfo")
     public String allOrderInfo () {
         //todo sorting, pagination and change status function
         return "admin/orderInfo";
+    }
+
+    @GetMapping("/createAdmin")
+    public String createAdmin() {
+        return "admin/addAdmin";
+    }
+
+    @PostMapping("/createAdmin")
+    public String createAdminPost(@ModelAttribute("email") String userEmail,
+                                  @ModelAttribute("username") String username,
+                                  Model model) {
+        if(userService.findByUsername(username) != null) {
+            model.addAttribute("usernameExists", true);
+            return "admin/addAdmin";
+        }
+        if(userService.findByEmail(userEmail) != null) {
+            model.addAttribute("emailExists", true);
+            return "admin/addAdmin";
+        }
+        String password = userService.generateRandomPassword();
+        User user = userService.createUser(username, userEmail, password, "ADMIN");
+        String token = UUID.randomUUID().toString();
+        userService.createPasswordTokenForUser(user, token);
+        mailSender.send(user.getEmail(), "My FlowerShop", MailSender.messageCreateAdmin(user.getUsername(), token, password));
+        model.addAttribute("emailSent", true);
+        logger.info("Created new account");
+        return "admin/addAdmin";
     }
 
     @GetMapping("/addItem")

@@ -37,6 +37,25 @@ public class UserController {
     @Autowired
     private MailSender mailSender;
 
+    @GetMapping("/login")
+    public String login(Model model, @RequestParam(value = "token", required = false) String token){
+        if (token != null) {
+            PasswordToken passToken = userService.getPasswordToken(token);
+            if (passToken == null) {
+                String message = "Invalid token";
+                model.addAttribute("message", message);
+                return "redirect:/badRequest";
+            }
+            User user = passToken.getUser();
+            model.addAttribute("tokenExists", true);
+            model.addAttribute("user", user);
+        } else {
+            model.addAttribute("tokenNotExists", true);
+        }
+        model.addAttribute("activeLogin", true);
+        return "myAccount";
+    }
+
     @GetMapping("/myProfile")
     public String myProfile (Model model, Principal principal) {
         User user = userService.findByEmail(principal.getName());
@@ -88,33 +107,12 @@ public class UserController {
             return "myAccount";
         }
         String password = userService.generateRandomPassword();
-        User user = userService.createUser(username, userEmail, password);
+        User user = userService.createUser(username, userEmail, password, "USER");
         String token = UUID.randomUUID().toString();
         userService.createPasswordTokenForUser(user, token);
         mailSender.send(user.getEmail(), "My FlowerShop", MailSender.messageCreateUser(user.getUsername(), token, password));
         model.addAttribute("emailSent", true);
         logger.info("Created new account");
-        return "myAccount";
-    }
-
-    @GetMapping("/login")
-    public String login(Model model, @RequestParam(value = "token", required = false) String token){
-        if (token != null) {
-            PasswordToken passToken = userService.getPasswordToken(token);
-
-            if (passToken == null) {
-                String message = "Invalid token";
-                model.addAttribute("message", message);
-                return "redirect:/badRequest";
-            }
-
-            User user = passToken.getUser();
-            model.addAttribute("tokenExists", true);
-            model.addAttribute("user", user);
-        } else {
-            model.addAttribute("tokenNotExists", true);
-        }
-        model.addAttribute("activeLogin", true);
         return "myAccount";
     }
 

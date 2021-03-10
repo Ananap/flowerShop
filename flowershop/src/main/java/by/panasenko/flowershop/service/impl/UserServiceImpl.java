@@ -44,12 +44,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         passwordTokenRepository.save(myToken);
     }
 
-    public User createUser (String username, String email, String password) {
+    public User createUser (String username, String email, String password, String roleName) {
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt(12)));
-        Role role = new Role("USER");
+        Role role = new Role(roleName);
         role.setUser(user);
         roleRepository.save(role);
         Basket basket = new Basket();

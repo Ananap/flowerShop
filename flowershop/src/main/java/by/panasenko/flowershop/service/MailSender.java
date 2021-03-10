@@ -19,7 +19,10 @@ import java.util.Locale;
 public class MailSender {
     private static final String MAIN_MESSAGE = "Hello, %s! \n" +
             "Welcome to My FlowerShop. Please, visit next link: http://localhost:8080/login?token=%s \n" +
-            "Your new password is %s.";
+            "Your password is %s.";
+    private static final String ADMIN_MESSAGE = "Hello, %s! \n" +
+            "Now you are an Admin of My FlowerShop. Please, visit next link: http://localhost:8080/login?token=%s \n" +
+            "Your password is %s.";
 
     @Autowired
     private JavaMailSender mailSender;
@@ -49,6 +52,14 @@ public class MailSender {
 
     public static String messageCreateUser(String username, String token, String password) {
         return String.format(MAIN_MESSAGE,
+                username,
+                token,
+                password
+        );
+    }
+
+    public static String messageCreateAdmin(String username, String token, String password) {
+        return String.format(ADMIN_MESSAGE,
                 username,
                 token,
                 password

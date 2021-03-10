@@ -40,8 +40,8 @@
                             <li><a th:href="@{/itemPage}" data-th-utext="#{main.flower.list}"></a></li>
                             <li><a th:href="@{/direction}" data-th-utext="#{main.store.hour}"></a></li>
                             <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/addItem}" data-th-utext="#{main.add.item}"></a></li>
-                            <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/flowerList}" data-th-utext="#{main.admin.flowerlist}"></a>
-                            </li>
+                            <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/flowerList}" data-th-utext="#{main.admin.flowerlist}"></a></li>
+                            <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/createAdmin}" data-th-utext="#{main.admin.create}"></a></li>
                         </ul>
                     </li>
                 </ul>
