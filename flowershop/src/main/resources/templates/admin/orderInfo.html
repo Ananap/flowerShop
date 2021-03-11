@@ -1,10 +1,166 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: common-header"></head>
+<link rel="stylesheet" href="/css/flower.css">
 <body>
-<h1>Admin page for finding all information of orders</h1>
+<div th:replace="common/header :: navbar"></div>
+<div class="container">
+    <div>
+        <form th:action="@{/page}">
+            <div class="form-wrapper">
+                <input type="hidden" name="pageNumber" th:value="1"/>
+                <input type="hidden" name="sortField" th:value="${sortField}"/>
+                <input type="hidden" name="sortDir" th:value="${sortDir}"/>
+                <input type="hidden" name="size" th:value="${size}"/>
+                &nbsp
+            </div>
+        </form>
+    </div>
+    <br/>
+    <div class="table-responsive"
+         th:with="urlPrefix='?pageNumber=' + ${currentPage}, urlPostfixSort='&sortDir=' + ${reverseSortDir} + '&size=' + ${size}">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr>
+                <th>
+                    <a th:href="@{${url} + ${urlPrefix} + '&sortField=address' + ${urlPostfixSort}}">
+                        Address detail
+                    </a>
+                </th>
+                <th>Payment Information</th>
+                <th>
+                    <a th:href="@{${url} + ${urlPrefix} + '&sortField=dateDelivery' + ${urlPostfixSort}}">
+                        Date Delivery
+                    </a>
+                </th>
+                <th>Status</th>
+                <th>More details</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-th-each="order : ${orderList}">
+                <td th:text="${order.address}"></td>
+                <td>
+                    <span th:if="${order.payment == null}">Cash</span><br/>
+                    <span th:unless="${order.payment == null}" th:text="${order.payment.holderName}"></span><br/>
+                    <span th:unless="${order.payment == null}" th:text="${order.payment.type}"></span><br/>
+                    <span th:unless="${order.payment == null}" th:text="${order.payment.cardNumber}"></span><br/>
+                    <span th:unless="${order.payment == null}" th:text="${order.payment.expiryMonth}"></span><br/>
+                    <span th:unless="${order.payment == null}" th:text="${order.payment.expiryYear}"></span><br/>
+                </td>
+                <td th:text="${order.dateDelivery}"></td>
+                <td th:text="${order.statusOrder.value}"></td>
+                <td><a th:href="@{/viewDetailOrder(id=${order.id})}">Посмотреть подробнее</a><br/></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pagination-wrapper">
+        <div class="items-label">
+            <span>Total Orders: [[${totalItems}]] - </span>
+            <span>Page [[${currentPage}]] of [[${totalPages}]]</span>
+        </div>
+
+        <div class="pages-form" th:if="${totalPages > 1}"
+             th:with="urlPostfix='&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''} + ${category != null ? '&category=' + category : ''} + ${priceFrom != null ? '&priceFrom=' + priceFrom : ''} + ${priceTo != null ? '&priceTo=' + priceTo : ''}">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                        <a th:href="@{${url} + '?pageNumber=' + 1 + ${urlPostfix}}"
+                           class="page-link">First</a>
+                    </li>
+                    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                        <a th:href="@{${url} + '?pageNumber=' + ${currentPage - 1} + ${urlPostfix}}"
+                           class="page-link">Previous</a>
+                    </li>
+
+                    <th:block th:if="${totalPages <= 6}">
+                        <li th:each="i: ${#numbers.sequence(1, totalPages)}"
+                            th:class="${i != currentPage ? 'page-item' : 'page-item active'}">
+                            <a class="page-link"
+                               th:href="@{${url} + '?pageNumber=' + ${i} + ${urlPostfix}}">
+                                [[${i}]]</a>
+                        </li>
+                    </th:block>
+
+                    <th:block th:if="${totalPages > 6}">
+                        <th:block th:if="${currentPage <= 3 || currentPage >= totalPages - 2}">
+                            <li th:each="i: ${#numbers.sequence(1, 3)}"
+                                th:class="${i != currentPage ? 'page-item' : 'page-item active'}">
+                                <a class="page-link"
+                                   th:href="@{${url} + '?pageNumber=' + ${i} + ${urlPostfix}}">
+                                    [[${i}]]</a>
+                            </li>
+
+                            <li class="page-item">
+                                <a class="page-link"
+                                   th:href="@{${url} + '?pageNumber=' + 4 + ${urlPostfix}}">
+                                    ...</a>
+                            </li>
+
+                            <li th:each="i: ${#numbers.sequence(totalPages - 2, totalPages)}"
+                                th:class="${i != currentPage ? 'page-item' : 'page-item active'}">
+                                <a class="page-link"
+                                   th:href="@{${url} + '?pageNumber=' + ${i} + ${urlPostfix}}">
+                                    [[${i}]]</a>
+                            </li>
+                        </th:block>
+
+                        <th:block th:if="${currentPage > 3 && currentPage < totalPages - 2}">
+                            <li class="page-item">
+                                <a class="page-link"
+                                   th:href="@{${url} + '?pageNumber=' + ${currentPage - 3} + ${urlPostfix}}">
+                                    ...</a>
+                            </li>
+
+                            <li th:each="i: ${#numbers.sequence(currentPage - 2, currentPage + 2)}"
+                                th:class="${i != currentPage ? 'page-item' : 'page-item active'}">
+                                <a class="page-link"
+                                   th:href="@{${url} + '?pageNumber=' + ${i} + ${urlPostfix}}">
+                                    [[${i}]]</a>
+                            </li>
+
+                            <li class="page-item">
+                                <a class="page-link"
+                                   th:href="@{${url} + '?pageNumber=' + ${currentPage + 3} + ${urlPostfix}}">
+                                    ...</a>
+                            </li>
+                        </th:block>
+                    </th:block>
+
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                        <a th:href="@{${url} + '?pageNumber=' + ${currentPage + 1} + ${urlPostfix}}"
+                           class="page-link">Next</a>
+                    </li>
+                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                        <a th:href="@{${url} + '?pageNumber=' + ${totalPages} + ${urlPostfix}}"
+                           class="page-link">Last</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="items-count-form">
+            <ul class="pagination">
+                <li class="page-item disabled">
+                    <span class="page-link">Select Items On Page</span>
+                </li>
+                <li th:each="i: ${sizeList}"
+                    th:class="${i != size ? 'page-item' : 'page-item active'}">
+                    <a class="page-link"
+                       th:href="@{${url} + '?pageNumber=' + ${currentPage} + '&sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${i} + ${keyword != null ? '&keyword=' + keyword : ''} + ${category != null ? '&category=' + category : ''} + ${priceFrom != null ? '&priceFrom=' + priceFrom : ''} + ${priceTo != null ? '&priceTo=' + priceTo : ''}}">
+                        [[${i}]]</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#buttonClear').click(function () {
+            window.location = "[[@{/flowerList}]]";
+        })
+    })
+</script>
 </body>
 </html>

@@ -1,0 +1,58 @@
+﻿<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header :: common-header"></head>
+
+<body>
+<div th:replace="common/header :: navbar"></div>
+<h3><strong>Order Summary</strong></h3>
+<div class="table-responsive">
+    <form th:action="@{/changeStatus}">
+        <input type="hidden" id="id" name="id" th:value="${order.id}"/>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr>
+                <td><strong>Item name</strong></td>
+                <td><strong>Status</strong></td>
+                <!--<td><strong>Comment</strong></td>-->
+                <td class="text-center"><strong>Item price</strong></td>
+                <td class="text-center"><strong>Item quantity</strong></td>
+                <td class="text-right"><strong>SubTotal</strong></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="orderFlower : ${orderFlowerList}">
+                <td><span data-th-text="${orderFlower.flower.name}"></span></td>
+                <td>
+                    <label class="col-md-2 control-label" for="statusOrder">Status</label>
+                    <select required th:value="${order.statusOrder}" id="statusOrder" name="statusOrder"
+                            class="form-control">
+                        <option value="" selected="selected" disabled="disabled">Please select status for order</option>
+                        <option value="APPROVED"
+                                th:selected="(${order.statusOrder}=='APPROVED')">Одобрено
+                        </option>
+                        <option value="INPROCESS" th:selected="(${order.statusOrder}=='INPROCESS')">В обработке
+                        </option>
+                        <option value="REJECTED"
+                                th:selected="(${order.statusOrder}=='REJECTED')">Отклонен
+                        </option>
+                    </select>
+                </td>
+                <td class="text-center" data-th-text="${orderFlower.flower.price}"></td>
+                <td class="text-center" data-th-text="${orderFlower.count}"></td>
+                <td class="text-right" data-th-text="${orderFlower.subTotal}"></td>
+            </tr>
+            <tr>
+                <td class="highrow"></td>
+                <td class="highrow"></td>
+                <td class="highrow"></td>
+                <td class="highrow text-center"><strong>Total</strong></td>
+                <td class="highrow text-right" data-th-text="${order.totalCost}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <br />
+        <button class="btn btn-success" type="submit">Save</button>
+    </form>
+</div>
+</body>
+</html>

@@ -11,7 +11,8 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private boolean statusOrder;
+    @Enumerated(EnumType.STRING)
+    private Status statusOrder;
     private Date dateDelivery;
     private BigDecimal totalCost;
     private String timeOrder;
@@ -32,7 +33,7 @@ public class Order {
 
     public Order(){}
 
-    public Order(boolean status, String address, Date dateOrder, Date dateDelivery, String time, BigDecimal totalCost, User user, Payment payment, boolean cash) {
+    public Order(Status status, String address, Date dateOrder, Date dateDelivery, String time, BigDecimal totalCost, User user, Payment payment, boolean cash) {
         this.statusOrder = status;
         this.address = address;
         this.dateOrder = dateOrder;
@@ -52,11 +53,11 @@ public class Order {
         this.id = id;
     }
 
-    public boolean isStatusOrder() {
+    public Status getStatusOrder() {
         return statusOrder;
     }
 
-    public void setStatusOrder(boolean statusOrder) {
+    public void setStatusOrder(Status statusOrder) {
         this.statusOrder = statusOrder;
     }
 

@@ -1,12 +1,11 @@
 package by.panasenko.flowershop.controller;
 
 import by.panasenko.flowershop.exception.ShopException;
-import by.panasenko.flowershop.model.FlowerType;
-import by.panasenko.flowershop.model.Storage;
-import by.panasenko.flowershop.model.User;
+import by.panasenko.flowershop.model.*;
 import by.panasenko.flowershop.model.product.Flower;
 import by.panasenko.flowershop.model.product.FlowerPageCriteria;
 import by.panasenko.flowershop.model.product.FlowerSearchCriteria;
+import by.panasenko.flowershop.model.product.PageCriteria;
 import by.panasenko.flowershop.service.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -50,9 +49,49 @@ public class AdminController {
     @Autowired
     private MailSender mailSender;
 
-    @GetMapping("/allOrderInfo")
-    public String allOrderInfo () {
-        //todo sorting, pagination and change status function
+    @Autowired
+    private OrderService orderService;
+
+    @GetMapping("/orderInfo")
+    public String allOrderInfo(Model model) {
+        return orderList(model, 1, "statusOrder", "asc", 3);
+    }
+
+    @GetMapping("/orderList")
+    public String orderList(Model model,
+                               @RequestParam("pageNumber") int currentPage,
+                               @RequestParam("sortField") String sortField,
+                               @RequestParam("sortDir") String sortDir,
+                               @RequestParam("size") Integer size) {
+        PageCriteria orderPageCriteria = new PageCriteria(currentPage, size, FlowerPageCriteria.sortDirection(sortDir), sortField);
+        Page<Order> page = orderService.findAllOrder(orderPageCriteria);
+        orderService.fillModelOrder(orderPageCriteria, page, model);
+        model.addAttribute("url", "/orderList");
+        return "admin/orderInfo";
+    }
+
+    @GetMapping("/viewDetailOrder")
+    public String viewDetailOrder(@RequestParam("id") Integer id,
+                                  Model model) {
+        Order order = orderService.getOne(id);
+        List<OrderFlower> orderFlowerList = order.getOrderFlower();
+        model.addAttribute("order", order);
+        model.addAttribute("orderFlowerList", orderFlowerList);
+        return "admin/detailOrder";
+    }
+
+    @GetMapping("/changeStatus")
+    public String changeStatus(@ModelAttribute("id") Integer id,
+                               @ModelAttribute("statusOrder") String statusOrder) {
+        Order order = orderService.getOne(id);
+        order.setStatusOrder(statusOrder.equals("APPROVED") ? Status.APPROVED : statusOrder.equals("INPROCESS") ? Status.INPROCESS : Status.REJECTED);
+        orderService.save(order);
+        User user = order.getUser();
+        if (order.getStatusOrder() == Status.APPROVED) {
+            mailSender.sendMimeMessage(mailSender.constructOrderConfirmationEmail(user, order));
+        } else if (order.getStatusOrder() == Status.REJECTED) {
+            mailSender.send(user.getEmail(), "My FlowerShop", MailSender.orderRejected(user.getUsername()));
+        }
         return "admin/orderInfo";
     }
 

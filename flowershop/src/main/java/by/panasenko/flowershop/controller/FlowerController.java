@@ -6,15 +6,15 @@ import by.panasenko.flowershop.model.User;
 import by.panasenko.flowershop.model.product.Flower;
 import by.panasenko.flowershop.model.product.FlowerPageCriteria;
 import by.panasenko.flowershop.model.product.FlowerSearchCriteria;
-import by.panasenko.flowershop.service.impl.FlowerServiceImpl;
-import by.panasenko.flowershop.service.impl.FlowerTypeServiceImpl;
-import by.panasenko.flowershop.service.impl.StorageServiceImpl;
-import by.panasenko.flowershop.service.impl.UserServiceImpl;
+import by.panasenko.flowershop.service.FlowerService;
+import by.panasenko.flowershop.service.StorageService;
+import by.panasenko.flowershop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
@@ -22,26 +22,19 @@ import java.security.Principal;
 @Controller
 public class FlowerController {
     @Autowired
-    private FlowerServiceImpl flowerServiceImpl;
+    private FlowerService flowerService;
 
     @Autowired
-    private FlowerTypeServiceImpl flowerTypeServiceImpl;
+    private UserService userService;
 
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    private StorageService storageService;
 
-    @Autowired
-    private StorageServiceImpl storageServiceImpl;
-
-/*    @GetMapping("/findItem")
+    @GetMapping("/findItem")
     public String findItem(@ModelAttribute("keyword") String keyword,
                            Model model) {
-        List<FlowerType> flowerTypeList = flowerTypeService.findAll();
-        model.addAttribute("flowerTypeList", flowerTypeList);
-        List<Flower> flowerListByKeyword = flowerService.findByKeyword(keyword);
-        model.addAttribute("flowerList", flowerListByKeyword);
-        return "itemPage";
-    }*/
+        return listItemPage(model, 1, "name", "asc", 3, keyword, null, null, null);
+    }
 
     @GetMapping("/itemPage")
     public String itemPage(Model model){
@@ -60,8 +53,8 @@ public class FlowerController {
                              @RequestParam(value = "priceTo", required = false) Double priceTo) {
         FlowerSearchCriteria flowerSearchCriteria = new FlowerSearchCriteria(keyword, category, priceFrom, priceTo);
         FlowerPageCriteria flowerPageCriteria = new FlowerPageCriteria(currentPage, size, FlowerPageCriteria.sortDirection(sortDir), sortField, flowerSearchCriteria);
-        Page<Flower> page = flowerServiceImpl.findAll(flowerPageCriteria);
-        flowerServiceImpl.fillModel(flowerPageCriteria, page, model);
+        Page<Flower> page = flowerService.findAll(flowerPageCriteria);
+        flowerService.fillModel(flowerPageCriteria, page, model);
         model.addAttribute("url", "/listItem");
         return "itemPage";
     }
@@ -74,12 +67,12 @@ public class FlowerController {
                                Principal principal) throws ShopException {
         if (principal != null) {
             String email = principal.getName();
-            User user = userServiceImpl.findByEmail(email);
+            User user = userService.findByEmail(email);
             model.addAttribute("user", user);
         }
-        Flower flower = flowerServiceImpl.findOne(id);
+        Flower flower = flowerService.findOne(id);
         model.addAttribute("flower", flower);
-        Storage storage = storageServiceImpl.findByFlower(flower);
+        Storage storage = storageService.findByFlower(flower);
 
         model.addAttribute("flowerType", flower.getFlowerType());
         model.addAttribute("storage", storage);

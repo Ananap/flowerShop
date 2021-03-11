@@ -23,6 +23,8 @@ public class MailSender {
     private static final String ADMIN_MESSAGE = "Hello, %s! \n" +
             "Now you are an Admin of My FlowerShop. Please, visit next link: http://localhost:8080/login?token=%s \n" +
             "Your password is %s.";
+    private static final String ORDER_REJECTED = "Hello, %s! \n" +
+            "Unfortunately, you order was rejected. All details you may find in your personal account in panel Orders.";
 
     @Autowired
     private JavaMailSender mailSender;
@@ -63,6 +65,12 @@ public class MailSender {
                 username,
                 token,
                 password
+        );
+    }
+
+    public static String orderRejected(String username) {
+        return String.format(ORDER_REJECTED,
+                username
         );
     }
 

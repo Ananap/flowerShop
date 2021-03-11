@@ -29,9 +29,6 @@ public class OrderController {
     private BasketFlowerService basketFlowerService;
 
     @Autowired
-    private MailSender mailSender;
-
-    @Autowired
     private OrderService orderService;
 
     @Autowired
@@ -58,10 +55,9 @@ public class OrderController {
             return "redirect:/checkout?missingRequiredField=true&id=" + basket.getId();
         }
         Order order = orderService.createOrder(basket, address, payment, date, time, yes);
-        mailSender.sendMimeMessage(mailSender.constructOrderConfirmationEmail(user, order));
-        basketService.clearBasket(basket);
         model.addAttribute("order", order);
         model.addAttribute("orderFlowerList", orderFlowerService.getOrderFlowerListByOrder(order));
+        basketService.clearBasket(basket);
         logger.info("User" + user.getUsername() + " make an order");
         return "orderSubmittedPage";
     }
