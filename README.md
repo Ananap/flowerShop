@@ -19,5 +19,6 @@ The websystem provides an opportunity to buy flowers of various type. It works l
   + Change status of an order
 
 
-![image](https://user-images.githubusercontent.com/56219016/111268145-f666ee80-863d-11eb-9213-5556b19cff20.png)
+![Безымянный](https://user-images.githubusercontent.com/56219016/111268219-0e3e7280-863e-11eb-9e95-e0c22d302d6d.png)
+
 
