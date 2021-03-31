@@ -17,3 +17,8 @@ The websystem provides an opportunity to buy flowers of various type. It works l
   + Add and edit items
   + Add new admins
   + Change status of an order
+
+
+![Безымянный](https://user-images.githubusercontent.com/56219016/111268219-0e3e7280-863e-11eb-9e95-e0c22d302d6d.png)
+
+
