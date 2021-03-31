@@ -10,6 +10,7 @@ import by.panasenko.flowershop.service.BasketFlowerService;
 import by.panasenko.flowershop.service.BasketService;
 import by.panasenko.flowershop.service.FlowerService;
 import by.panasenko.flowershop.service.UserService;
+import by.panasenko.flowershop.util.PagePath;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class BasketController {
         basketService.updateBasket(basket);
         model.addAttribute("basketFlowerList", basketFlowerList);
         model.addAttribute("basket", basket);
-        return "basket";
+        return PagePath.BASKET;
     }
 
     @PostMapping("/basketUpdate")
@@ -60,7 +61,7 @@ public class BasketController {
         basketFlower.setCount(count);
         basketFlowerService.save(basketFlower);
         logger.info("Basket updated");
-        return "redirect:/basket";
+        return PagePath.BASKET_REDIRECT;
     }
 
     @GetMapping("/checkout")
@@ -70,17 +71,17 @@ public class BasketController {
                            Principal principal){
         User user = userService.findByEmail(principal.getName());
         if (basketId != user.getBasket().getId()) {
-            return "common/badRequest";
+            return PagePath.BAD_REQUEST;
         }
         List<BasketFlower> basketFlowerList = basketFlowerService.findByBasket(user.getBasket());
         if (basketFlowerList.size() == 0) {
             model.addAttribute("emptyBasket", true);
-            return "forward:/basket";
+            return PagePath.BASKET_REDIRECT;
         }
         for (BasketFlower basketFlower : basketFlowerList) {
             if (basketFlower.getFlower().getStorage().getCount() < basketFlower.getCount()) {
                 model.addAttribute("notEnoughStorage", true);
-                return "forward:/basket";
+                return PagePath.BASKET_REDIRECT;
             }
         }
         List<Payment> paymentList = user.getUserInfo().getPayments();
@@ -108,7 +109,7 @@ public class BasketController {
         model.addAttribute("basket", basketService.findById(basketId));
         model.addAttribute("basketFlowerList", basketFlowerList);
         model.addAttribute("paymentList", paymentList);
-        return "checkout";
+        return PagePath.CHECKOUT;
     }
 
     @PostMapping("/addItemToBasket")
@@ -120,11 +121,11 @@ public class BasketController {
         model.addAttribute("user", user);
         flower = flowerService.findOne(flower.getId());
         if(count > flower.getStorage().getCount()) {
-            return "redirect:/flowerDetail?stock=true&id="+flower.getId();
+            return PagePath.FLOWER_DETAIL_REDIRECT + flower.getId();
         }
         basketService.addFlowerToBasket(flower, user, count);
         logger.info("Item " + flower.getName() + " is added to basket");
-        return "redirect:/flowerDetail?basket=true&id="+flower.getId();
+        return PagePath.FLOWER_DETAIL_REDIRECT + flower.getId();
     }
 
     @GetMapping("/removeItem")
@@ -132,6 +133,6 @@ public class BasketController {
                              Model model) {
         basketFlowerService.remove(basketFlowerId);
         model.addAttribute("removeItem", true);
-        return "forward:/basket";
+        return PagePath.BASKET_REDIRECT;
     }
 }

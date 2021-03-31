@@ -6,6 +6,7 @@ import by.panasenko.flowershop.model.Payment;
 import by.panasenko.flowershop.model.User;
 import by.panasenko.flowershop.service.PaymentService;
 import by.panasenko.flowershop.service.UserService;
+import by.panasenko.flowershop.util.PagePath;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class PaymentController {
         model.addAttribute("userAddress", user.getUserInfo().getAddress());
         model.addAttribute("listOfCreditCards", true);
         model.addAttribute("orderList", user.getOrders());
-        return "myProfile";
+        return PagePath.PROFILE;
     }
 
     @GetMapping("/addNewCreditCard")
@@ -51,7 +52,7 @@ public class PaymentController {
         model.addAttribute("orderList", user.getOrders());
         Payment payment = new Payment();
         model.addAttribute("userPayment", payment);
-        return "myProfile";
+        return PagePath.PROFILE;
     }
 
     @PostMapping("/addNewCreditCard")
@@ -63,7 +64,7 @@ public class PaymentController {
         model.addAttribute("orderList", user.getOrders());
         model.addAttribute("userPaymentList", user.getUserInfo().getPayments());
         logger.info("User " + user.getUsername() + " added payment");
-        return "redirect:myProfile";
+        return PagePath.PROFILE_REDIRECT;
     }
 
     @GetMapping("/updateCreditCard")
@@ -78,7 +79,7 @@ public class PaymentController {
             model.addAttribute("activePayment", true);
             model.addAttribute("addNewCreditCard", true);
             model.addAttribute("orderList", user.getOrders());
-            return "myProfile";
+            return PagePath.PROFILE;
         }
     }
 
@@ -96,7 +97,7 @@ public class PaymentController {
             model.addAttribute("userPaymentList", user.getUserInfo().getPayments());
             model.addAttribute("orderList", user.getOrders());
             logger.info("User" + user.getUsername() + " removed credit card");
-            return "myProfile";
+            return PagePath.PROFILE;
         }
     }
 
@@ -109,7 +110,7 @@ public class PaymentController {
         model.addAttribute("orderList", user.getOrders());
         model.addAttribute("listOfCreditCards", true);
         model.addAttribute("userPaymentList", user.getUserInfo().getPayments());
-        return "myProfile";
+        return PagePath.PROFILE;
     }
 
     @GetMapping("/setPaymentMethod")
@@ -122,7 +123,7 @@ public class PaymentController {
             throw new ShopException("Payment doesn't belong to user!");
         } else {
             paymentService.setDefaultPayment(userPaymentId);
-            return "redirect:/checkout?id="+basket.getId();
+            return PagePath.CHECKOUT_REDIRECT + basket.getId();
         }
     }
 }

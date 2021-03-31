@@ -4,6 +4,7 @@ import by.panasenko.flowershop.model.*;
 import by.panasenko.flowershop.model.product.FlowerPageCriteria;
 import by.panasenko.flowershop.model.product.PageCriteria;
 import by.panasenko.flowershop.service.*;
+import by.panasenko.flowershop.util.PagePath;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,18 +53,18 @@ public class OrderController {
         model.addAttribute("basketFlowerList", basketFlowerList);
         if (yes.isEmpty()) {
             if (payment.hasNullFields()) {
-                return "redirect:/checkout?missingRequiredField=true&id=" + basket.getId();
+                return PagePath.CHECKOUT_REDIRECT_MISS_FIELD + basket.getId();
             }
         }
         if (address.isEmpty() || date.isEmpty() || time.isEmpty()) {
-            return "redirect:/checkout?missingRequiredField=true&id=" + basket.getId();
+            return PagePath.CHECKOUT_REDIRECT_MISS_FIELD + basket.getId();
         }
         Order order = orderService.createOrder(basket, address, payment, date, time, yes);
         model.addAttribute("order", order);
         model.addAttribute("orderFlowerList", orderFlowerService.getOrderFlowerListByOrder(order));
         basketService.clearBasket(basket);
         logger.info("User" + user.getUsername() + " make an order");
-        return "orderSubmittedPage";
+        return PagePath.ORDER_SUBMIT;
     }
 
     @GetMapping("/orderDetail")
@@ -74,7 +75,7 @@ public class OrderController {
         Order order = orderService.findOne(id);
 
         if (order.getUser() != user) {
-            return "common/badRequest";
+            return PagePath.BAD_REQUEST;
         } else {
             model.addAttribute("user", user);
             model.addAttribute("activeOrders", true);
@@ -93,7 +94,7 @@ public class OrderController {
             model.addAttribute("displayOrderDetail", true);
             List<OrderFlower> orderFlowerList = orderFlowerService.getOrderFlowerListByOrder(order);
             model.addAttribute("orderFlowerList", orderFlowerList);
-            return "myProfile";
+            return PagePath.PROFILE;
         }
     }
 
@@ -114,7 +115,7 @@ public class OrderController {
         Page<Order> page = orderService.findAllOrder(orderPageCriteria);
         orderService.fillModelOrder(orderPageCriteria, page, model);
         model.addAttribute("url", "/orderList");
-        return "admin/orderInfo";
+        return PagePath.ORDER_INFO;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -125,6 +126,6 @@ public class OrderController {
         List<OrderFlower> orderFlowerList = order.getOrderFlower();
         model.addAttribute("order", order);
         model.addAttribute("orderFlowerList", orderFlowerList);
-        return "admin/detailOrder";
+        return PagePath.DETAIL_ORDER;
     }
 }

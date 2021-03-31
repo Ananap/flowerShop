@@ -7,6 +7,7 @@ import by.panasenko.flowershop.repository.PasswordTokenRepository;
 import by.panasenko.flowershop.service.MailSender;
 import by.panasenko.flowershop.service.UserInfoService;
 import by.panasenko.flowershop.service.UserService;
+import by.panasenko.flowershop.util.PagePath;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class UserController {
             model.addAttribute("tokenNotExists", true);
         }
         model.addAttribute("activeLogin", true);
-        return "myAccount";
+        return PagePath.ACCOUNT;
     }
 
     @GetMapping("/myProfile")
@@ -67,7 +68,7 @@ public class UserController {
         model.addAttribute("listOfCreditCards", true);
         model.addAttribute("listOfAddress", true);
         model.addAttribute("classActiveEdit", true);
-        return "myProfile";
+        return PagePath.PROFILE;
     }
 
     @PostMapping("/forgetPassword")
@@ -89,7 +90,7 @@ public class UserController {
             mailSender.send(user.getEmail(), "My FlowerShop", MailSender.messageForget(user.getUsername(), token, password));
             model.addAttribute("forgetPasswordEmail", true);
         }
-        return "myAccount";
+        return PagePath.ACCOUNT;
     }
 
     @PostMapping("/newAccount")
@@ -100,11 +101,11 @@ public class UserController {
         model.addAttribute("username", username);
         if(userService.findByUsername(username) != null) {
             model.addAttribute("usernameExists", true);
-            return "myAccount";
+            return PagePath.ACCOUNT;
         }
         if(userService.findByEmail(userEmail) != null) {
             model.addAttribute("emailExists", true);
-            return "myAccount";
+            return PagePath.ACCOUNT;
         }
         String password = userService.generateRandomPassword();
         User user = userService.createUser(username, userEmail, password, "USER");
@@ -113,7 +114,7 @@ public class UserController {
         mailSender.send(user.getEmail(), "My FlowerShop", MailSender.messageCreateUser(user.getUsername(), token, password));
         model.addAttribute("emailSent", true);
         logger.info("Created new account");
-        return "myAccount";
+        return PagePath.ACCOUNT;
     }
 
     @PostMapping("/updateUserInfo")
@@ -148,6 +149,6 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("orderList", user.getOrders());
         logger.info("User " + user.getUsername() + " update info");
-        return "myProfile";
+        return PagePath.PROFILE;
     }
 }

@@ -11,6 +11,7 @@ import by.panasenko.flowershop.service.FlowerService;
 import by.panasenko.flowershop.service.FlowerTypeService;
 import by.panasenko.flowershop.service.StorageService;
 import by.panasenko.flowershop.service.UserService;
+import by.panasenko.flowershop.util.PagePath;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class FlowerController {
         Page<Flower> page = flowerService.findAll(flowerPageCriteria);
         flowerService.fillModel(flowerPageCriteria, page, model);
         model.addAttribute("url", "/listItem");
-        return "itemPage";
+        return PagePath.ITEM_PAGE;
     }
 
     @GetMapping("/flowerDetail")
@@ -99,7 +100,7 @@ public class FlowerController {
         if (stock) {
             model.addAttribute("notEnoughStorage", true);
         }
-        return "flowerDetail";
+        return PagePath.FLOWER_DETAIL;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -111,7 +112,7 @@ public class FlowerController {
         model.addAttribute("flower", flower);
         model.addAttribute("storage", storage);
         model.addAttribute("flowerTypeList", flowerType);
-        return "admin/addItem";
+        return PagePath.ADD_ITEM;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -122,7 +123,7 @@ public class FlowerController {
                               Model model){
         if (flower.getPrice() < 1 || flower.getWatering() < 1 || storage.getCount() < 1) {
             model.addAttribute("wrongInput", true);
-            return "admin/addItem";
+            return PagePath.ADD_ITEM;
         }
         storage.setFlower(flower);
         storageService.save(storage);
@@ -141,6 +142,6 @@ public class FlowerController {
             logger.error("Wrong file for item image", e);
         }
         logger.info("Add Item success");
-        return "redirect:flowerList";
+        return PagePath.FLOWER_LIST_REDIRECT;
     }
 }

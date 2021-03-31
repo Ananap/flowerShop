@@ -8,6 +8,7 @@ import by.panasenko.flowershop.model.product.Flower;
 import by.panasenko.flowershop.model.product.FlowerPageCriteria;
 import by.panasenko.flowershop.model.product.FlowerSearchCriteria;
 import by.panasenko.flowershop.service.*;
+import by.panasenko.flowershop.util.PagePath;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,12 +62,12 @@ public class AdminController {
         } else if (order.getStatusOrder() == Status.REJECTED) {
             mailSender.send(user.getEmail(), "My FlowerShop", MailSender.orderRejected(user.getUsername()));
         }
-        return "admin/orderInfo";
+        return PagePath.ORDER_INFO;
     }
 
     @GetMapping("/createAdmin")
     public String createAdmin() {
-        return "admin/addAdmin";
+        return PagePath.ADD_ADMIN;
     }
 
     @PostMapping("/createAdmin")
@@ -75,11 +76,11 @@ public class AdminController {
                                   Model model) {
         if(userService.findByUsername(username) != null) {
             model.addAttribute("usernameExists", true);
-            return "admin/addAdmin";
+            return PagePath.ADD_ADMIN;
         }
         if(userService.findByEmail(userEmail) != null) {
             model.addAttribute("emailExists", true);
-            return "admin/addAdmin";
+            return PagePath.ADD_ADMIN;
         }
         String password = userService.generateRandomPassword();
         User user = userService.createUser(username, userEmail, password, "ADMIN");
@@ -88,7 +89,7 @@ public class AdminController {
         mailSender.send(user.getEmail(), "My FlowerShop", MailSender.messageCreateAdmin(user.getUsername(), token, password));
         model.addAttribute("emailSent", true);
         logger.info("Created new account");
-        return "admin/addAdmin";
+        return PagePath.ADD_ADMIN;
     }
 
     @GetMapping("/flowerList")
@@ -111,14 +112,14 @@ public class AdminController {
         Page<Flower> page = flowerService.findAll(flowerPageCriteria);
         flowerService.fillModel(flowerPageCriteria, page, model);
         model.addAttribute("url", "/page");
-        return "admin/flowerList";
+        return PagePath.FLOWER_LIST;
     }
 
     @GetMapping("/itemInfo")
     public String flowerInfo(@RequestParam("id") Integer id, Model model) throws ShopException {
         Flower flower = flowerService.findOne(id);
         model.addAttribute("flower", flower);
-        return "admin/itemInfo";
+        return PagePath.ITEM_INFO;
     }
 
     @GetMapping("/updateItem")
@@ -126,7 +127,7 @@ public class AdminController {
         Flower flower = flowerService.findOne(id);
         model.addAttribute("flower", flower);
         model.addAttribute("flowerTypeList", flowerTypeService.findAll());
-        return "admin/updateItem";
+        return PagePath.UPDATE_ITEM;
     }
 
     @PostMapping("/updateItem")
@@ -148,12 +149,12 @@ public class AdminController {
         flower.setFlowerImage(name);
         flowerService.save(flower);
         logger.info("Update item successfully");
-        return "redirect:flowerList";
+        return PagePath.FLOWER_LIST_REDIRECT;
     }
 
     @GetMapping("/deleteItem")
     public String deleteItem(@RequestParam("id") Integer id) {
         flowerService.deleteFlower(id);
-        return "redirect:flowerList";
+        return PagePath.FLOWER_LIST_REDIRECT;
     }
 }
