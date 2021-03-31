@@ -1,11 +1,12 @@
 package by.panasenko.flowershop.controller;
 
 import by.panasenko.flowershop.exception.ShopException;
-import by.panasenko.flowershop.model.*;
+import by.panasenko.flowershop.model.Order;
+import by.panasenko.flowershop.model.Status;
+import by.panasenko.flowershop.model.User;
 import by.panasenko.flowershop.model.product.Flower;
 import by.panasenko.flowershop.model.product.FlowerPageCriteria;
 import by.panasenko.flowershop.model.product.FlowerSearchCriteria;
-import by.panasenko.flowershop.model.product.PageCriteria;
 import by.panasenko.flowershop.service.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -25,7 +26,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -41,9 +41,6 @@ public class AdminController {
     private FlowerTypeService flowerTypeService;
 
     @Autowired
-    private StorageService storageService;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -51,34 +48,6 @@ public class AdminController {
 
     @Autowired
     private OrderService orderService;
-
-    @GetMapping("/orderInfo")
-    public String allOrderInfo(Model model) {
-        return orderList(model, 1, "statusOrder", "asc", 3);
-    }
-
-    @GetMapping("/orderList")
-    public String orderList(Model model,
-                               @RequestParam("pageNumber") int currentPage,
-                               @RequestParam("sortField") String sortField,
-                               @RequestParam("sortDir") String sortDir,
-                               @RequestParam("size") Integer size) {
-        PageCriteria orderPageCriteria = new PageCriteria(currentPage, size, FlowerPageCriteria.sortDirection(sortDir), sortField);
-        Page<Order> page = orderService.findAllOrder(orderPageCriteria);
-        orderService.fillModelOrder(orderPageCriteria, page, model);
-        model.addAttribute("url", "/orderList");
-        return "admin/orderInfo";
-    }
-
-    @GetMapping("/viewDetailOrder")
-    public String viewDetailOrder(@ModelAttribute("id") Integer id,
-                                  Model model) {
-        Order order = orderService.getOne(id);
-        List<OrderFlower> orderFlowerList = order.getOrderFlower();
-        model.addAttribute("order", order);
-        model.addAttribute("orderFlowerList", orderFlowerList);
-        return "admin/detailOrder";
-    }
 
     @GetMapping("/changeStatus")
     public String changeStatus(@ModelAttribute("id") Integer id,
@@ -120,46 +89,6 @@ public class AdminController {
         model.addAttribute("emailSent", true);
         logger.info("Created new account");
         return "admin/addAdmin";
-    }
-
-    @GetMapping("/addItem")
-    public String addItem(Model model) {
-        Flower flower = new Flower();
-        Storage storage = new Storage();
-        List<FlowerType> flowerType = flowerTypeService.findAll();
-        model.addAttribute("flower", flower);
-        model.addAttribute("storage", storage);
-        model.addAttribute("flowerTypeList", flowerType);
-        return "admin/addItem";
-    }
-
-    @PostMapping("/addItem")
-    public String addItemPost(@ModelAttribute("flower") Flower flower,
-                              @ModelAttribute("storage") Storage storage,
-                              @ModelAttribute("image") MultipartFile image,
-                              Model model){
-        if (flower.getPrice() < 1 || flower.getWatering() < 1 || storage.getCount() < 1) {
-            model.addAttribute("wrongInput", true);
-            return "admin/addItem";
-        }
-        storage.setFlower(flower);
-        storageService.save(storage);
-        try {
-            if (image != null) {
-                byte[] bytes = image.getBytes();
-                flower.setFlowerImage(flower.getId() + ".png");
-                flowerService.save(flower);
-                String name = flower.getId() + ".png";
-                BufferedOutputStream stream = new BufferedOutputStream(
-                        new FileOutputStream(new File(PATHNAME + name)));
-                stream.write(bytes);
-                stream.close();
-            }
-        } catch (Exception e) {
-            logger.error("Wrong file for item image", e);
-        }
-        logger.info("Add Item success");
-        return "redirect:flowerList";
     }
 
     @GetMapping("/flowerList")

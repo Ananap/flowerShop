@@ -1,10 +1,14 @@
 package by.panasenko.flowershop.controller;
 
 import by.panasenko.flowershop.model.*;
+import by.panasenko.flowershop.model.product.FlowerPageCriteria;
+import by.panasenko.flowershop.model.product.PageCriteria;
 import by.panasenko.flowershop.service.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -91,5 +95,36 @@ public class OrderController {
             model.addAttribute("orderFlowerList", orderFlowerList);
             return "myProfile";
         }
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/orderInfo")
+    public String allOrderInfo(Model model) {
+        return orderList(model, 1, "statusOrder", "asc", 3);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/orderList")
+    public String orderList(Model model,
+                            @RequestParam("pageNumber") int currentPage,
+                            @RequestParam("sortField") String sortField,
+                            @RequestParam("sortDir") String sortDir,
+                            @RequestParam("size") Integer size) {
+        PageCriteria orderPageCriteria = new PageCriteria(currentPage, size, FlowerPageCriteria.sortDirection(sortDir), sortField);
+        Page<Order> page = orderService.findAllOrder(orderPageCriteria);
+        orderService.fillModelOrder(orderPageCriteria, page, model);
+        model.addAttribute("url", "/orderList");
+        return "admin/orderInfo";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/viewDetailOrder")
+    public String viewDetailOrder(@ModelAttribute("id") Integer id,
+                                  Model model) {
+        Order order = orderService.getOne(id);
+        List<OrderFlower> orderFlowerList = order.getOrderFlower();
+        model.addAttribute("order", order);
+        model.addAttribute("orderFlowerList", orderFlowerList);
+        return "admin/detailOrder";
     }
 }
