@@ -8,7 +8,7 @@
     <div class="row" style="margin-bottom: -100px">
         <div class="col-xs-8">
             <h2 class="section-headline">
-                <span th:text="${user} ? ${#strings.toUpperCase(user.username)} : 'All Items'"></span>
+                <span th:text="${user} ? ${#strings.toUpperCase(user.username)} : #{common.items}"></span>
             </h2>
         </div>
         <div class="col-xs-4">
@@ -26,10 +26,10 @@
                     <input type="hidden" name="sortDir" th:value="${sortDir}"/>
                     <input type="hidden" name="size" th:value="${size}"/>
                     <div class="select-form">
-                        <span>Category:</span>
+                        <span th:utext="#{main.category}"></span>
                         <select id="category" name="category"
                                 class="form-control">
-                            <option th:unless="${flowerTypeSelected != null}" selected disabled>Please select a category
+                            <option th:unless="${flowerTypeSelected != null}" selected disabled th:utext="#{main.category.enter}">
                             </option>
                             <option th:if="${flowerTypeSelected != null}" th:value="category"
                                     th:text="${flowerTypeSelected.description}" selected disabled></option>
@@ -39,27 +39,27 @@
                         </select>
                     </div>
                     <div class="select-form">
-                        <span>Filter:</span>
+                        <span th:utext="#{main.filter}"></span>
                         <div class="select-form">
-                            <input placeholder="Keyword" type="text" th:value="${keyword}" name="keyword"/>
+                            <input th:placeholder="#{common.keyword}" type="text" th:value="${keyword}" name="keyword"/>
                         </div>
                     </div>
                     <div class="select-form">
-                        <span>Price:</span>
+                        <span th:utext="#{admin.price.name}"></span>
                         <div class="input-group select-form">
                             <span class="input-group-addon">Br</span>
                             <input th:value="${priceFrom}" type="number" step="0.1" min="1"
                                    class="form-control" id="priceFrom" name="priceFrom"
-                                   placeholder="Price From"/>
+                                   th:placeholder="#{common.price.from}"/>
                             <input th:value="${priceTo}" type="number" step="0.1" min="1"
                                    class="form-control" id="priceTo" name="priceTo"
-                                   placeholder="Price To"/>
+                                   th:placeholder="#{common.price.to}"/>
                         </div>
                     </div>
                     <div>
-                        <input type="submit" value="Search"/>
+                        <input type="submit" th:value="#{main.search}"/>
                         &nbsp;
-                        <input type="button" value="Clear" id="buttonClear"/>
+                        <input type="button" th:value="#{main.clear}" id="buttonClear"/>
                     </div>
                 </div>
             </form>
@@ -85,7 +85,7 @@
                                              th:attr="src=@{'/image/flower/' + ${flower.flowerImage}}"/></a>
                                 </div>
                                 <div class="col-xs-9">
-                                    <a th:href="@{/flowerDetail?id=}+${flower.id}"><h4
+                                    <a th:href="@{/flowerDetail?id=} + ${flower.id}"><h4
                                             th:text="${flower.name}"></h4></a>
                                     <span style="font-size: x-large; color: darkorange">Br<span
                                             th:text="${#numbers.formatDecimal(flower.price, 0, 'COMMA', 2, 'POINT')}"></span></span>
@@ -101,8 +101,8 @@
     </div>
     <div class="pagination-wrapper">
         <div class="items-label">
-            <span>Total Items: [[${totalItems}]] - </span>
-            <span>Page [[${currentPage}]] of [[${totalPages}]]</span>
+            <span th:utext="#{admin.flower.total} + ' ' + ${totalItems}"></span>
+            <span th:utext="#{common.page} + ' ' + ${currentPage} + ' ' + #{common.of} + ' ' + ${totalPages}"></span>
         </div>
 
         <div class="pages-form" th:if="${totalPages > 1}"
@@ -111,11 +111,11 @@
                 <ul class="pagination justify-content-center">
                     <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
                         <a th:href="@{${url} + '?pageNumber=' + 1 + ${urlPostfix}}"
-                           class="page-link">First</a>
+                           class="page-link" th:utext="#{common.first}"></a>
                     </li>
                     <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
                         <a th:href="@{${url} + '?pageNumber=' + ${currentPage - 1} + ${urlPostfix}}"
-                           class="page-link">Previous</a>
+                           class="page-link" th:utext="#{common.previous}"></a>
                     </li>
 
                     <th:block th:if="${totalPages <= 6}">
@@ -174,11 +174,11 @@
 
                     <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
                         <a th:href="@{${url} + '?pageNumber=' + ${currentPage + 1} + ${urlPostfix}}"
-                           class="page-link">Next</a>
+                           class="page-link" th:utext="#{common.next}"></a>
                     </li>
                     <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
                         <a th:href="@{${url} + '?pageNumber=' + ${totalPages} + ${urlPostfix}}"
-                           class="page-link">Last</a>
+                           class="page-link" th:utext="#{common.last}"></a>
                     </li>
                 </ul>
             </nav>
@@ -186,7 +186,7 @@
         <div class="items-count-form">
             <ul class="pagination">
                 <li class="page-item disabled">
-                    <span class="page-link">Select Items On Page</span>
+                    <span class="page-link" th:utext="#{common.select.item}"></span>
                 </li>
                 <li th:each="i: ${sizeList}"
                     th:class="${i != size ? 'page-item' : 'page-item active'}">
@@ -202,9 +202,10 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#buttonClear').click(function () {
-            window.location = "[[@{/flowerList}]]";
+            window.location = "[[@{/itemPage}]]";
         })
     })
 </script>
+<div th:replace="common/footer :: footer"></div>
 </body>
 </html>

@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row" style="margin-bottom: -100px">
         <div class="col-xs-8">
-            <h2 class="section-headline"><span>User Account</span></h2>
+            <h2 class="section-headline"><span th:utext="#{user.account}"></span></h2>
         </div>
         <div class="col-xs-4">
             <img src="image/logo1.jpg" class="img-responsive">
@@ -23,20 +23,18 @@
             <div class="col-xs-4">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <button type="submit" class="btn btn-warning btn-block">Place your order</button>
-                        <p style="font-size: smaller">By placing your order, you agree to My FlowerShop
-                            privacy notice and conditions of use</p>
+                        <button type="submit" class="btn btn-warning btn-block" th:utext="#{user.order.place}"></button>
+                        <p style="font-size: smaller" th:utext="#{user.order.confirm}"></p>
                         <hr/>
                         <div class="row">
                             <div class="col-xs-7 text-left">
-                                <h3 style="color: darkred"><strong>Order Total:</strong></h3>
+                                <h3 style="color: darkred"><strong th:utext="#{admin.order.sum}"></strong></h3>
                             </div>
                             <div class="col-xs-5 text-right">
                                 <h3><strong style="color: darkred">Br <span
                                         th:text="${basket.totalCost}"></span></strong></h3>
                             </div>
-                        </div>
-                        <div class="panel-footer">Address and payment have nat applied</div>
+                        </div>x
                     </div>
                 </div>
             </div>
@@ -51,41 +49,38 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordeon" href="#addressInfo">
-                                    1. Address and Date
-                                </a>
+                                <a data-toggle="collapse" data-parent="#accordeon" href="#addressInfo" th:utext="#{user.order.address}"></a>
                             </h4>
                         </div>
                         <div id="addressInfo" class="panel-collapse collapse"
                              th:classappend="${classActiveAddress} ? 'in'">
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label for="address">Address</label>
+                                    <label for="address" th:utext="#{common.address.detail}"></label>
                                     <input type="text" class="form-control" id="address" name="address"
                                            th:value="${user.userInfo.address}"/>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-xs-6">
-                                            <label for="date">Date of delivery</label>
+                                            <label for="date" th:utext="#{user.order.delivery}"></label>
                                             <input type="date" class="form-control" id="date" name="date"
                                                    value="2021-02-15" max="2021-05-15" min="2021-02-15"/>
                                         </div>
                                         <div class="col-xs-6">
-                                            <label for="time">Time of delivery</label>
+                                            <label for="time" th:utext="#{user.order.time}"></label>
                                             <select id="time" name="time" class="form-control">
-                                                <option value="" selected="selected" disabled="disabled">Please select
-                                                    Time of delivery
+                                                <option value="" selected="selected" disabled="disabled" th:utext="#{user.time.select}">
                                                 </option>
-                                                <option value="C 9:00 до 12:00">C 9:00 до 12:00</option>
-                                                <option value="C 15:00 до 18:00">C 15:00 до 18:00</option>
-                                                <option value="C 18:00 до 21:00">C 18:00 до 21:00</option>
+                                                <option value="9:00 - 12:00">9:00 - 12:00</option>
+                                                <option value="15:00 - 18:00">15:00 - 18:00</option>
+                                                <option value="18:00 - 21:00">18:00 - 21:00</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <a data-toggle="collapse" data-parent="#accordeon" class="btn btn-warning pull-right"
-                                   href="#paymentInfo">Next</a>
+                                   href="#paymentInfo" th:utext="#{common.next}"></a>
                             </div>
                         </div>
                     </div>
@@ -93,9 +88,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordeon" href="#paymentInfo">
-                                    2. Payment Information
-                                </a>
+                                <a data-toggle="collapse" data-parent="#accordeon" href="#paymentInfo" th:utext="#{user.order.payment}"></a>
                             </h4>
                         </div>
                         <div id="paymentInfo" class="panel-collapse collapse"
@@ -104,8 +97,8 @@
                                 <table class="table" th:if="${not emptyPaymentList}">
                                     <thead>
                                     <tr>
-                                        <th>Available credit card</th>
-                                        <th>Operations</th>
+                                        <th th:utext="#{user.available.card}"></th>
+                                        <th th:utext="#{admin.choose.operation}"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -113,29 +106,28 @@
                                         <td th:value="${userPayment.cardName}" th:text="${userPayment.cardName}">
                                         </td>
                                         <td><a
-                                                th:href="@{/setPaymentMethod(userPaymentId=${userPayment.id})}"> use
-                                            this payment</a></td>
+                                                th:href="@{/setPaymentMethod(userPaymentId=${userPayment.id})}" th:utext="#{user.use.card}"></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
 
                                 <!--Credit card info-->
                                 <div th:if="emptyPaymentList" class="row">
-                                    <label>Payment with cash?</label>
+                                    <label class="custom-label" th:utext="#{user.payment.cash}"></label>
                                     <br/>
-                                    <label for="yes">Yes</label>
+                                    <label class="custom-label" for="yes" th:utext="#{common.yes}"></label>
                                     <input value="yes" id="yes" type="radio" name="cash" onclick="aa(this.checked)"/>
                                     <br/>
-                                    <label for="no">No</label>
+                                    <label class="custom-label" for="no" th:utext="#{common.no}"></label>
                                     <input id="no" type="radio" value="" name="cash" onclick="ab(this.checked)"/>
                                     <div class="col-xs-12">
                                         <img th:src="@{image/creditcard.png}" class="img-responsive"/><br/>
                                         <input th:if="${not emptyPaymentList}" hidden="hidden" th:name="id" th:value="${userPayment.id}" />
                                         <div class="form-group">
-                                            <label for="cardType1">Select Card Type</label>
+                                            <label for="cardType1" th:utext="#{user.order.card}"></label>
                                             <select class="form-control" id="cardType1" th:name="type"
                                                     th:value="${userPayment.type}">
-                                                <option selected disabled>-- Card Type --</option>
+                                                <option selected disabled th:utext="#{user.order.card}"></option>
                                                 <option th:selected="${userPayment.type}=='visa'" value="visa">Visa
                                                 </option>
                                                 <option th:selected="${userPayment.type}=='mastercard'"
@@ -147,18 +139,18 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="cardHolder1">* Card Holder Name</label>
+                                            <label for="cardHolder1" th:utext="#{user.card.holder}"></label>
                                             <input type="text" class="form-control" id="cardHolder1"
                                                    required="required"
                                                    placeholder="Card Holder Name" th:name="holderName"
                                                    th:value="${userPayment.holderName}"/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="cardNumber1">* Card Number</label>
+                                            <label for="cardNumber1" th:utext="#{user.card.number}"></label>
                                             <div class="input-group">
                                                 <input type="tel" class="form-control" id="cardNumber1"
                                                        required="required"
-                                                       placeholder="Valid card number" th:name="cardNumber"
+                                                       th:placeholder="#{user.card.valid}" th:name="cardNumber"
                                                        th:value="${userPayment.cardNumber}"/>
                                                 <span class="input-group-addon"><i class="fa fa-credit-card"
                                                                                    aria-hidden="true"></i></span>
@@ -169,13 +161,13 @@
                                 <div class="row">
                                     <div class="col-xs-7">
                                         <div class="form-group">
-                                            <label>* Expiration Date</label>
+                                            <label th:utext="#{user.card.date}"></label>
                                             <div class="row">
                                                 <div class="col-xs-6">
                                                     <select id="expiryMonth1" class="form-control" name="expiryMonth"
                                                             required="required"
                                                             th:value="${userPayment.expiryMonth}">
-                                                        <option selected="selected" disabled="disabled">-- Month --
+                                                        <option selected="selected" disabled="disabled" th:utext="#{user.card.month}">
                                                         </option>
                                                         <option th:selected="(${userPayment.expiryMonth}=='1')"
                                                                 value="1">Jan (01)
@@ -218,7 +210,7 @@
                                                 <div class="col-xs-6">
                                                     <select id="expiryYear1" class="form-control" name="expiryYear"
                                                             th:value="${userPayment.expiryYear}">
-                                                        <option selected="selected" disabled="disabled">-- Year --
+                                                        <option selected="selected" disabled="disabled" th:utext="#{user.card.year}">
                                                         </option>
                                                         <option th:selected="(${userPayment.expiryYear}=='2021')"
                                                                 value="2021">2021
@@ -271,7 +263,7 @@
                                     </div>
                                 </div>
                                 <a data-toggle="collapse" data-parent="#accordeon"
-                                   class="btn btn-warning pull-right" href="#reviewItems">Next</a>
+                                   class="btn btn-warning pull-right" href="#reviewItems" th:utext="#{common.next}"></a>
                             </div>
                         </div>
                     </div>
@@ -280,17 +272,15 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordeon" href="#reviewItems">
-                                    3. Review Items
-                                </a>
+                                <a data-toggle="collapse" data-parent="#accordeon" href="#reviewItems" th:utext="#{user.review.item}"></a>
                             </h4>
                         </div>
                         <div id="reviewItems" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-xs-8"><h4>Items</h4></div>
-                                    <div class="col-xs-2"><h4>Price</h4></div>
-                                    <div class="col-xs-2"><h4>Amount</h4></div>
+                                    <div class="col-xs-8"><h4 th:utext="#{admin.item.name}"></h4></div>
+                                    <div class="col-xs-2"><h4 th:utext="#{admin.price.name}"></h4></div>
+                                    <div class="col-xs-2"><h4 th:utext="#{user.order.amount}"></h4></div>
                                 </div>
                                 <!--Display items in basket-->
                                 <div class="row" th:each="basketFlower : ${basketFlowerList}">
@@ -306,16 +296,13 @@
                                             <a th:href="@{/flowerDetail?id=}+${basketFlower.flower.id}"><h4
                                                     th:text="${basketFlower.flower.name}"></h4></a>
                                             <p th:if="${basketFlower.flower.storage.count&gt;14}"
-                                               style="color: green">In
-                                                Storage</p>
+                                               style="color: green" th:utext="#{user.storage.flower}"><p>
                                             <p th:if="${basketFlower.flower.storage.count&lt;14 and basketFlower.flower.storage.count&gt;0}"
                                                style="color: green">
-                                                Only <span th:text="${basketFlower.flower.storage.count}"></span> In
-                                                Storage</p>
+                                            <span th:text="#{user.storage.only} + ' ' + ${basketFlower.flower.storage.count} + ' ' + #{user.storage.flower}"></span></p>
                                             <p th:if="${basketFlower.flower.storage.count==0}"
-                                               style="color: darkred">Product
-                                                unavailable</p>
-                                            <a th:href="@{/removeItem?id=}+${basketFlower.id}">Delete</a>
+                                               style="color: darkred" th:utext="#{user.flower.unavailable}"></p>
+                                            <a th:href="@{/removeItem?id=}+${basketFlower.id}" th:utext="#{admin.operation.delete}"></a>
                                         </div>
                                     </div>
                                     <div class="col-xs-2">
@@ -329,14 +316,13 @@
                                     </div>
                                 </div>
                                 <hr/>
-                                <h4 class="col-xs-12 text-right"><strong style="font-size: large">Order Total</strong>
+                                <h4 class="col-xs-12 text-right"><strong style="font-size: large" th:utext="#{user.total.price}"></strong>
                                     <span style="color: orangered; font-size: large">Br<span
                                             th:text="${basket.totalCost}"></span></span>
                                 </h4>
                                 <br/><br/>
-                                <button type="submit" class="btn btn-warning btn-block">Place your order</button>
-                                <p style="font-size: smaller">By placing your order, you agree to My FlowerShop
-                                    privacy notice and conditions of use</p>
+                                <button type="submit" class="btn btn-warning btn-block" th:utext="#{user.order.place}"></button>
+                                <p style="font-size: smaller" th:utext="#{user.order.confirm}"></p>
                             </div>
                         </div>
                     </div>
@@ -363,6 +349,6 @@
         document.getElementById('expiryMonth1').disabled=!Type;
     }
 </script>
-
+<div th:replace="common/footer :: footer"></div>
 </body>
 </html>

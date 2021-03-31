@@ -41,3 +41,12 @@ hr{
 .image-header-dropdown {
     width: 30px;
 }
+
+.custom-footer {
+    background-color: #222;
+    min-height: 60px;
+}
+
+.custom-label {
+    margin-left: 25px;
+}

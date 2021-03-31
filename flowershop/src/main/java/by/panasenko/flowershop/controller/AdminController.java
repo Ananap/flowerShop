@@ -71,7 +71,7 @@ public class AdminController {
     }
 
     @GetMapping("/viewDetailOrder")
-    public String viewDetailOrder(@RequestParam("id") Integer id,
+    public String viewDetailOrder(@ModelAttribute("id") Integer id,
                                   Model model) {
         Order order = orderService.getOne(id);
         List<OrderFlower> orderFlowerList = order.getOrderFlower();
@@ -202,7 +202,7 @@ public class AdminController {
 
     @PostMapping("/updateItem")
     public String updateItemPost(@ModelAttribute("flower") Flower flower,
-                                 @ModelAttribute("image") MultipartFile image) throws ShopException {
+                                 @ModelAttribute("image") MultipartFile image) {
         String name = flower.getId()+".png";
         if (!image.isEmpty()) {
             try {

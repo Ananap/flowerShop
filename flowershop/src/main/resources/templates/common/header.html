@@ -27,7 +27,8 @@
     <div class="page-top" style="width: 100%; height: 20px; background-color: #1b6d85;"></div>
     <!-- Static navbar -->
     <nav class="navbar navbar-default navbar-inverse">
-        <div class="container-fluid">
+        <div class="container-fluid"
+             th:with="currentUrl=(${@currentUrlWithoutParam.apply('lang')})">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/" th:utext="#{main.title}"></a>
             </div>
@@ -59,8 +60,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false"><img class="image-header" src="image/lang.png" /><span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="?lang=ru"><img class="image-header-dropdown" src="image/russia.png" /></a></li>
-                            <li><a href="?lang=en"><img class="image-header-dropdown" src="image/en.png" /></a></li>
+                            <li><a th:href="@{${currentUrl}(lang=ru)}"><img class="image-header-dropdown" src="image/russia.png" /></a></li>
+                            <li><a th:href="@{${currentUrl}(lang=en)}"><img class="image-header-dropdown" src="image/en.png" /></a></li>
                         </ul>
                     </li>
                     <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/orderInfo}" data-th-utext="#{main.admin.order}"></a></li>

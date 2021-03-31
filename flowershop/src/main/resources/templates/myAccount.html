@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row" style="margin-bottom: -100px">
         <div class="col-xs-8">
-            <h2 class="section-headline"><span>User Account</span></h2>
+            <h2 class="section-headline"><span th:utext="#{user.account}"></span></h2>
         </div>
         <div class="col-xs-4">
             <img src="image/logo1.jpg" class="img-responsive">
@@ -21,9 +21,9 @@
         <div class="col-xs-8 col-xs-offset-2">
             <!--Nav tabs-->
             <ul class="nav nav-tabs">
-                <li th:classappend="${activeNewAccount} ? 'active'"><a href="#tab-1" data-toggle="tab"><span style="color: darkblue">Create new Account</span></a></li>
-                <li th:classappend="${activeLogin} ? 'active'"><a href="#tab-2" data-toggle="tab"><span style="color: darkblue">Log in</span></a></li>
-                <li th:classappend="${activeForgetPassword} ? 'active'"><a href="#tab-3" data-toggle="tab"><span style="color: darkblue">Forget password</span></a></li>
+                <li th:classappend="${activeNewAccount} ? 'active'"><a href="#tab-1" data-toggle="tab"><span style="color: darkblue" th:utext="#{common.create.user}"></span></a></li>
+                <li th:classappend="${activeLogin} ? 'active'"><a href="#tab-2" data-toggle="tab"><span style="color: darkblue" th:utext="#{common.login}"></span></a></li>
+                <li th:classappend="${activeForgetPassword} ? 'active'"><a href="#tab-3" data-toggle="tab"><span style="color: darkblue" th:utext="#{common.forget}"></span></a></li>
             </ul>
             <!--Tab panels-->
             <div class="tab-content">
@@ -35,16 +35,16 @@
                                 <div class="alert alert-info" th:if="${emailSent}">An email has been sent to the email address.</div>
                                 <form th:action="@{/newAccount}" method="post">
                                     <div class="form-group">
-                                        <label for="username">Username: </label>&nbsp;<span style="color: red" th:if="${usernameExists}">Username already exists. Choose a different one.</span>
+                                        <label for="username" th:utext="#{common.username.name} + ' '"></label>&nbsp;<span style="color: red" th:if="${usernameExists}">Username already exists. Choose a different one.</span>
                                         <input required="required" type="text" class="form-control" id="newUsername" name="username" />
-                                        <p style="color: gray">Enter your username</p>
+                                        <p style="color: gray" th:utext="#{common.username.enter}"></p>
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Email: </label>&nbsp;<span style="color: red" th:if="${emailExists}">Email already exists. Choose a different one.</span>
                                         <input required="required" type="email" class="form-control" id="email" name="email" />
-                                        <p style="color: gray">Enter valid email</p>
+                                        <p style="color: gray" th:utext="#{common.email.enter}"></p>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Log in</button>
+                                    <button type="submit" class="btn btn-primary" th:utext="#{common.login}"></button>
                                 </form>
                             </div>
                         </div>
@@ -58,17 +58,17 @@
                                 <div th:if="${param.error != null}" style="color: red">Incorrect username or password</div>
                                 <form th:action="@{/login}" method="post">
                                     <div class="form-group">
-                                        <label for="username">Username: </label>
+                                        <label for="username" th:utext="#{common.username.name} +' '"></label>
                                         <input readonly type="text" class="form-control" id="username" name="username" th:if="${tokenExists}" th:value="${user.username}" />
                                         <input required="required" type="text" class="form-control" id="usernameN" name="username" th:if="${tokenNotExists}" hidden/>
-                                        <p style="color: gray">Enter your username</p>
+                                        <p style="color: gray" th:utext="#{common.username.enter}"></p>
                                     </div>
                                     <div class="form-group">
-                                        <label for="password">Password: </label>
+                                        <label for="password" th:utext="#{common.password}"></label>
                                         <input required="required" type="password" class="form-control" id="password" name="password" />
-                                        <p style="color: gray">Enter the password</p>
+                                        <p style="color: gray" th:utext="#{common.password.enter}"></p>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Log in</button>
+                                    <button type="submit" class="btn btn-primary" th:utext="#{common.login}"></button>
                                 </form>
                             </div>
                         </div>
@@ -83,11 +83,11 @@
                                 <div th:if="${forgetPasswordEmail}" class="alert alert-success">Email sent</div>
                                 <form th:action="@{/forgetPassword}" method="post">
                                     <div class="form-group">
-                                        <label for="recoverEmail">Your Email: </label>
+                                        <label for="recoverEmail" th:utext="#{common.email}"></label>
                                         <input required="required" type="text" class="form-control" id="recoverEmail" name="recoverEmail" />
-                                        <p style="color: gray">Enter your register email</p>
+                                        <p style="color: gray" th:utext="#{common.email.register}"></p>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary" th:utext="#{main.submit}"></button>
                                 </form>
                             </div>
                         </div>
@@ -97,5 +97,6 @@
         </div>
     </div>
 </div>
+<div th:replace="common/footer :: footer"></div>
 </body>
 </html>

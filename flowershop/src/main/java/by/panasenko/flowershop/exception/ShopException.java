@@ -1,6 +1,6 @@
 package by.panasenko.flowershop.exception;
 
-public class ShopException extends RuntimeException {
+public class ShopException extends Exception {
     public ShopException() {
         super();
     }

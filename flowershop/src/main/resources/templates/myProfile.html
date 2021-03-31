@@ -23,11 +23,11 @@
             <!--Nav tabs-->
             <ul class="nav nav-tabs">
                 <li th:classappend="${activeEdit} ? 'active'"><a href="#tab-1" data-toggle="tab"><span
-                        style="color: darkblue">Edit</span></a></li>
+                        style="color: darkblue" th:utext="#{common.edit}"></span></a></li>
                 <li th:classappend="${activeOrders} ? 'active'"><a href="#tab-2" data-toggle="tab"><span
-                        style="color: darkblue">Orders</span></a></li>
+                        style="color: darkblue" th:utext="#{main.order}"></span></a></li>
                 <li th:classappend="${activePayment} ? 'active'"><a href="#tab-3" data-toggle="tab"><span
-                        style="color: darkblue">Payment</span></a></li>
+                        style="color: darkblue" th:utext="#{common.order.payment}"></span></a></li>
             </ul>
             <!--Tab panels-->
             <div class="tab-content">
@@ -41,24 +41,24 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-xs-6">
-                                                <label for="firstName">First name</label>
+                                                <label for="firstName" th:utext="#{user.first.name}"></label>
                                                 <input type="text" class="form-control" id="firstName" name="firstName"
                                                        th:value="${user.userInfo.firstName}"/>
                                             </div>
                                             <div class="col-xs-6">
-                                                <label for="lastName">Last name</label>
+                                                <label for="lastName" th:utext="#{user.last.name}"></label>
                                                 <input type="text" class="form-control" id="lastName" name="lastName"
                                                        th:value="${user.userInfo.lastName}"/>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="address">Address</label>
+                                        <label for="address" th:utext="#{common.address.detail}"></label>
                                         <input type="text" class="form-control" id="address" name="address"
                                                th:value="${user.userInfo.address}"/>
                                     </div>
                                     <div class="form-group">
-                                        <label for="newUsername">Username</label>
+                                        <label for="newUsername" th:utext="#{common.username.name}"></label>
                                         <input type="text" class="form-control" id="newUsername" name="newUsername"
                                                th:value="${user.username}"/>
                                     </div>
@@ -66,14 +66,14 @@
                                         <div th:if="${currentPasswordNotEquals}" class="alert alert-danger">Current
                                             password is wrong!
                                         </div>
-                                        <label for="currentPassword">Current Password</label>
+                                        <label for="currentPassword" th:utext="#{user.current.password}"></label>
                                         <input type="password" class="form-control" id="currentPassword"
                                                name="currentPassword"/>
                                     </div>
-                                    <p style="color: gray">Enter your current password to change the password</p>
+                                    <p style="color: gray" th:utext="#{user.password.enter}"></p>
 
                                     <div class="form-group">
-                                        <label for="email">Email Address</label>
+                                        <label for="email" th:utext="#{common.email}"></label>
                                         <input readonly type="text" class="form-control" id="email" name="email"
                                                th:value="${user.email}"/>
                                     </div>
@@ -82,19 +82,19 @@
                                         <div th:if="${passwordNotEquals}" class="alert alert-danger">Please enter equal
                                             passwords in both fields
                                         </div>
-                                        <label for="newPassword">New Password</label>
+                                        <label for="newPassword" th:utext="#{user.new.password}"></label>
                                         <input type="password" class="form-control" id="newPassword"
                                                name="newPassword"/>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="confirmPassword">Confirm Password</label>
+                                        <label for="confirmPassword" th:utext="#{user.password.confirm}"></label>
                                         <input type="password" class="form-control" id="confirmPassword"
                                                name="confirmPassword"/>
                                     </div>
-                                    <p style="color: gray">To change password enter the new password in both fields</p>
+                                    <p style="color: gray" th:utext="#{user.change.confirm}"></p>
 
-                                    <button type="submit" class="btn btn-primary">Create a new Account</button>
+                                    <button type="submit" class="btn btn-primary" th:utext="#{common.create.user}"></button>
                                 </form>
                             </div>
                         </div>
@@ -109,10 +109,10 @@
                                 <table class="table table-sm table-inverse">
                                     <thead>
                                     <tr>
-                                        <th>Order Date</th>
-                                        <th>Order Number</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
+                                        <th th:utext="#{user.order.date}"></th>
+                                        <th th:utext="#{user.order.number}"></th>
+                                        <th th:utext="#{admin.order.total}"></th>
+                                        <th th:utext="#{common.status}"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -129,14 +129,14 @@
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="text-center">
-                                                <h2>Order Detail for #<span th:text="${order.id}"></span></h2>
+                                                <h2><span th:text="#{user.order.detail} + ${order.id}"></span></h2>
                                             </div>
                                             <hr/>
 
                                             <div class="row">
                                                 <div class="col-xs-4">
                                                     <div class="panel panel-default height">
-                                                        <div class="panel-heading"><strong>Address</strong></div>
+                                                        <div class="panel-heading"><strong th:utext="#{common.address.detail}"></strong></div>
                                                         <div class="panel-body">
                                                             <span th:text="${order.address}"></span><br/>
                                                         </div>
@@ -144,19 +144,17 @@
                                                 </div>
                                                 <div class="col-xs-4">
                                                     <div class="panel panel-default height">
-                                                        <div class="panel-heading"><strong>Payment Information</strong>
+                                                        <div class="panel-heading"><strong th:utext="#{common.order.payment}"></strong>
                                                         </div>
-                                                        <div th:if="${cash}">
-                                                            Cash
-                                                        </div>
+                                                        <div th:if="${cash}" th:utext="#{admin.order.cash}"></div>
                                                         <div th:if="${!cash}" class="panel-body">
-                                                            <span>Card Name:</span>
+                                                            <span th:utext="#{user.card.name}"></span>
                                                             <span th:text="${order.payment.cardName}"></span><br/>
-                                                            <span>Holder Name:</span>
+                                                            <span th:utext="#{user.card.holder}"></span>
                                                             <span th:text="${order.payment.holderName}"></span><br/>
-                                                            <span>Card Number:</span>
+                                                            <span th:utext="#{user.card.number}">:</span>
                                                             <span th:text="${order.payment.cardNumber}"></span><br/>
-                                                            <span>Expiration Date:</span>
+                                                            <span th:utext="#{user.card.date}"></span>
                                                             <span th:text="${order.payment.expiryMonth}"></span>/<span
                                                                 th:text="${order.payment.expiryYear}"></span><br/>
                                                         </div>
@@ -164,11 +162,11 @@
                                                 </div>
                                                 <div class="col-xs-4">
                                                     <div class="panel panel-default height">
-                                                        <div class="panel-heading"><strong>Delivery Information</strong>
+                                                        <div class="panel-heading"><strong th:utext="#{user.delivery.info}"></strong>
                                                         </div>
                                                         <div class="panel-body">
-                                                            <span th:text="${order.dateDelivery}">Date Delivery</span><br/>
-                                                            <span th:text="${order.timeOrder}">Time Delivery</span><br/>
+                                                            <span th:text="${order.dateDelivery}" th:utext="#{user.order.delivery}"></span><br/>
+                                                            <span th:text="${order.timeOrder}" th:utext="#{user.order.time}"></span><br/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -178,17 +176,17 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="panel-heading">
-                                                <h3 class="text-center"><strong>Order Summary</strong></h3>
+                                                <h3 class="text-center"><strong th:utext="#{admin.order.sum}"></strong></h3>
                                             </div>
                                             <div class="panel-body">
                                                 <div class="table-responsive">
                                                     <table class="table table-condensed">
                                                         <thead>
                                                         <tr>
-                                                            <td><strong>Item name</strong></td>
-                                                            <td class="text-center"><strong>Item price</strong></td>
-                                                            <td class="text-center"><strong>Item quantity</strong></td>
-                                                            <td class="text-right"><strong>Total</strong></td>
+                                                            <td><strong th:utext="#{admin.item.name}"></strong></td>
+                                                            <td class="text-center"><strong th:utext="#{admin.flower.price}"></strong></td>
+                                                            <td class="text-center"><strong th:utext="#{admin.item.quantity}"></strong></td>
+                                                            <td class="text-right"><strong th:utext="#{admin.order.total}"></strong></td>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -201,7 +199,7 @@
                                                         <tr>
                                                             <td class="highrow"></td>
                                                             <td class="highrow"></td>
-                                                            <td class="highrow text-center"><strong>Total</strong></td>
+                                                            <td class="highrow text-center"><strong th:utext="#{admin.order.total}"></strong></td>
                                                             <td class="highrow text-right" data-th-text="${order.totalCost}"></td>
                                                         </tr>
                                                         </tbody>
@@ -224,11 +222,10 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item active">
                                         <a th:href="@{/listOfCreditCard}"
-                                           th:style="${listOfCreditCards} ? 'color:red' ">List of Credit Cards</a>
+                                           th:style="${listOfCreditCards} ? 'color:red' " th:utext="#{user.list.card}"></a>
                                     </li>
                                     <li class="breadcrumb-item active">
-                                        <a th:href="@{/addNewCreditCard}" th:style="${addNewCreditCard} ? 'color:red' ">Add(Update)
-                                            Credit card</a>
+                                        <a th:href="@{/addNewCreditCard}" th:style="${addNewCreditCard} ? 'color:red' " th:utext="#{user.update.card}"></a>
                                     </li>
                                 </ol>
                                 <div th:if="${listOfCreditCards}">
@@ -236,9 +233,9 @@
                                         <table class="table">
                                             <thead>
                                             <tr>
-                                                <th>Default</th>
-                                                <th>Credit Card</th>
-                                                <th>Operations</th>
+                                                <th th:utext="#{common.default}"></th>
+                                                <th th:utext="#{user.credit.card}"></th>
+                                                <th th:utext="#{admin.choose.operation}"></th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -260,7 +257,7 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                        <button class="btn btn-primary" type="submit">Save</button>
+                                        <button class="btn btn-primary" type="submit" th:utext="#{main.save}"></button>
                                     </form>
                                 </div>
                                 <div th:if="${addNewCreditCard}">
@@ -268,24 +265,24 @@
                                         <div class="bg-info" th:if="${updateUserPaymentInfo}">User Info Updated</div>
                                         <input hidden="hidden" id="id" name="id" th:value="${userPayment.id}"/>
                                         <div class="form-group">
-                                            <h5>* Give a name for your card</h5>
+                                            <h5 th:utext="#{user.give.name}"></h5>
                                             <input type="text" class="form-control" id="cardName"
-                                                   placeholder="Card Name"
+                                                   th:placeholder="#{user.card.name}"
                                                    th:name="cardName" required="required"
                                                    th:value="${userPayment.cardName}"/>
                                         </div>
                                         <hr/>
                                         <div class="form-group">
-                                            <h4>Credit Card Information</h4>
+                                            <h4 th:utext="#{user.card.info}"></h4>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <img src="/image/creditcard.png" class="img-responsive"/><br/>
                                                 <div class="form-group">
-                                                    <label for="cardType">* Select Card Type: </label>
+                                                    <label for="cardType" th:utext="#{user.select.type}"></label>
                                                     <select class="form-control" id="cardType" th:name="type"
                                                             th:value="${userPayment.type}">
-                                                        <option selected disabled>-- Card Type --</option>
+                                                        <option selected disabled th:utext="#{user.order.card}"></option>
                                                         <option th:selected="${userPayment.type}=='visa'" value="visa">
                                                             Visa
                                                         </option>
@@ -298,18 +295,18 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="cardHolder">* Card Holder Name</label>
+                                                    <label for="cardHolder" th:utext="#{user.card.holder}"></label>
                                                     <input type="text" class="form-control" id="cardHolder"
                                                            required="required"
-                                                           placeholder="Card Holder Name" th:name="holderName"
+                                                           th:placeholder="#{user.card.holder}" th:name="holderName"
                                                            th:value="${userPayment.holderName}"/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="cardNumber">* Card Number</label>
+                                                    <label for="cardNumber" th:utext="#{user.card.number}"></label>
                                                     <div class="input-group">
                                                         <input type="tel" class="form-control" id="cardNumber"
                                                                required="required"
-                                                               placeholder="Valid card number" th:name="cardNumber"
+                                                               th:placeholder="#{user.card.valid}" th:name="cardNumber"
                                                                th:value="${userPayment.cardNumber}"/>
                                                     </div>
                                                 </div>
@@ -318,15 +315,13 @@
                                         <div class="row">
                                             <div class="col-xs-7">
                                                 <div class="form-group">
-                                                    <label>* Expiration Date</label>
+                                                    <label th:utext="#{user.card.date}"></label>
                                                     <div class="row">
                                                         <div class="col-xs-6">
                                                             <select class="form-control" name="expiryMonth"
                                                                     required="required"
                                                                     th:value="${userPayment.expiryMonth}">
-                                                                <option selected="selected" disabled="disabled">-- Month
-                                                                    --
-                                                                </option>
+                                                                <option selected="selected" disabled="disabled" th:utext="#{user.card.month}"></option>
                                                                 <option th:selected="(${userPayment.expiryMonth}=='1')"
                                                                         value="1">Jan (01)
                                                                 </option>
@@ -368,9 +363,7 @@
                                                         <div class="col-xs-6">
                                                             <select class="form-control" name="expiryYear"
                                                                     th:value="${userPayment.expiryYear}">
-                                                                <option selected="selected" disabled="disabled">-- Year
-                                                                    --
-                                                                </option>
+                                                                <option selected="selected" disabled="disabled" th:utext="#{user.card.year}"></option>
                                                                 <option th:selected="(${userPayment.expiryYear}=='2021')"
                                                                         value="2021">2021
                                                                 </option>
@@ -422,7 +415,7 @@
                                             </div>
                                         </div>
                                         <hr/>
-                                        <button type="submit" class="btn btn-primary btn-lg">Save all</button>
+                                        <button type="submit" class="btn btn-primary btn-lg" th:utext="#{main.save}"></button>
                                     </form>
                                 </div>
                             </div>
@@ -433,5 +426,6 @@
         </div>
     </div>
 </div>
+<div th:replace="common/footer :: footer"></div>
 </body>
 </html>

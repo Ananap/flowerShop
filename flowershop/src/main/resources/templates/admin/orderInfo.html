@@ -23,25 +23,21 @@
             <thead>
             <tr>
                 <th>
-                    <a th:href="@{${url} + ${urlPrefix} + '&sortField=address' + ${urlPostfixSort}}">
-                        Address detail
-                    </a>
+                    <a th:href="@{${url} + ${urlPrefix} + '&sortField=address' + ${urlPostfixSort}}" th:utext="#{common.address.detail}"></a>
                 </th>
-                <th>Payment Information</th>
+                <th th:utext="#{common.order.payment}"></th>
                 <th>
-                    <a th:href="@{${url} + ${urlPrefix} + '&sortField=dateDelivery' + ${urlPostfixSort}}">
-                        Date Delivery
-                    </a>
+                    <a th:href="@{${url} + ${urlPrefix} + '&sortField=dateDelivery' + ${urlPostfixSort}}" th:utext="#{common.order.delivery}"></a>
                 </th>
-                <th>Status</th>
-                <th>More details</th>
+                <th th:utext="#{common.status}"></th>
+                <th th:utext="#{common.detail}"></th>
             </tr>
             </thead>
             <tbody>
             <tr data-th-each="order : ${orderList}">
                 <td th:text="${order.address}"></td>
                 <td>
-                    <span th:if="${order.payment == null}">Cash</span><br/>
+                    <span th:if="${order.payment == null}" th:utext="#{admin.order.cash}"></span>
                     <span th:unless="${order.payment == null}" th:text="${order.payment.holderName}"></span><br/>
                     <span th:unless="${order.payment == null}" th:text="${order.payment.type}"></span><br/>
                     <span th:unless="${order.payment == null}" th:text="${order.payment.cardNumber}"></span><br/>
@@ -50,15 +46,15 @@
                 </td>
                 <td th:text="${order.dateDelivery}"></td>
                 <td th:text="${order.statusOrder.value}"></td>
-                <td><a th:href="@{/viewDetailOrder(id=${order.id})}">Посмотреть подробнее</a><br/></td>
+                <td><a th:href="@{/viewDetailOrder(id=${order.id})}" th:utext="#{common.detail}"></a><br/></td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="pagination-wrapper">
         <div class="items-label">
-            <span>Total Orders: [[${totalItems}]] - </span>
-            <span>Page [[${currentPage}]] of [[${totalPages}]]</span>
+            <span th:utext="#{admin.orders.total} + ' ' + ${totalItems}"></span>
+            <span th:utext="#{common.page} + ' ' + ${currentPage} + ' ' + #{common.of} + ' ' + ${totalPages}"></span>
         </div>
 
         <div class="pages-form" th:if="${totalPages > 1}"
@@ -67,11 +63,11 @@
                 <ul class="pagination justify-content-center">
                     <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
                         <a th:href="@{${url} + '?pageNumber=' + 1 + ${urlPostfix}}"
-                           class="page-link">First</a>
+                           class="page-link" th:utext="#{common.first}"></a>
                     </li>
                     <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
                         <a th:href="@{${url} + '?pageNumber=' + ${currentPage - 1} + ${urlPostfix}}"
-                           class="page-link">Previous</a>
+                           class="page-link" th:utext="#{common.previous}"></a>
                     </li>
 
                     <th:block th:if="${totalPages <= 6}">
@@ -130,11 +126,11 @@
 
                     <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
                         <a th:href="@{${url} + '?pageNumber=' + ${currentPage + 1} + ${urlPostfix}}"
-                           class="page-link">Next</a>
+                           class="page-link" th:utext="#{common.next}"></a>
                     </li>
                     <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
                         <a th:href="@{${url} + '?pageNumber=' + ${totalPages} + ${urlPostfix}}"
-                           class="page-link">Last</a>
+                           class="page-link" th:utext="#{common.last}"></a>
                     </li>
                 </ul>
             </nav>
@@ -142,7 +138,7 @@
         <div class="items-count-form">
             <ul class="pagination">
                 <li class="page-item disabled">
-                    <span class="page-link">Select Items On Page</span>
+                    <span class="page-link" th:utext="#{common.select.item}"></span>
                 </li>
                 <li th:each="i: ${sizeList}"
                     th:class="${i != size ? 'page-item' : 'page-item active'}">

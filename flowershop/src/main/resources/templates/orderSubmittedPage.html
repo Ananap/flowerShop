@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row" style="margin-bottom: -100px">
         <div class="col-xs-8">
-            <h2 class="section-headline"><span>User Account</span></h2>
+            <h2 class="section-headline"><span th:utext="#{user.account}"></span></h2>
         </div>
         <div class="col-xs-4">
             <img src="image/logo1.jpg" class="img-responsive">
@@ -20,12 +20,13 @@
     <div class="row" style="margin-top: 10px;">
         <div class="col-xs-12">
             <div class="alert alert-success">
-                <h3><img style="width: 45px;" class="img-thumbnail" src="image/greencheck.jpg">
-                    Thank you, your order has been placed. You will get an email confirmation as soon as possible</h3>
-                <h4>The delivery date is <span th:text="${order.dateDelivery}"></span></h4>
-                <h4>The delivery time is <span th:text="${order.timeOrder}"></span></h4>
+                <h3><img style="width: 45px;" class="img-thumbnail" src="image/greencheck.jpg" th:utext="#{user.order.confirmation}"></h3>
+                <h4 th:utext="#{user.date.delivery} + ' '"></h4>
+                <span th:text="${order.dateDelivery}"></span>
+                <h4 th:utext="#{user.time.delivery} + ' '"></h4>
+                <span th:text="${order.timeOrder}"></span>
             </div>
-            <h3>List items</h3>
+            <h3 th:utext="#{main.flower.list}"></h3>
             <div class="row" th:each="orderFlower : ${orderFlowerList}">
                 <hr/>
                 <div class="col-xs-2"></div>
@@ -51,6 +52,6 @@
         </div>
     </div>
 </div>
-</div>
+<div th:replace="common/footer :: footer"></div>
 </body>
 </html>

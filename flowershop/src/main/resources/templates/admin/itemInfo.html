@@ -7,8 +7,8 @@
 <div class="container">
     <div>
         <ol class="breadcrumb">
-            <li><a th:href="@{/flowerList}"><i class="fa fa-long-arrow-alt-left" aria-hidden="true"></i>Go back</a></li>
-            <li><a th:href="@{/updateItem?id=}+${flower.id}">Edit</a></li>
+            <li><a th:href="@{/flowerList}"><i class="fa fa-long-arrow-alt-left" aria-hidden="true" th:utext="#{common.back}"></i></a></li>
+            <li><a th:href="@{/updateItem?id=}+${flower.id}" th:utext="#{common.edit}"></a></li>
         </ol>
     </div>
     <div class="row">
@@ -23,18 +23,18 @@
             <h3 th:text="${flower.name}"></h3>
             <div class="row">
                 <div class="col-xs-6">
-                    <p><strong>Category: </strong><span th:text="${flower.flowerType.description}"></span></p>
-                    <p><strong>Soil: </strong><span th:text="${flower.soil}"></span></p>
-                    <p><strong>Watering: </strong><span th:text="${flower.watering} + ' Ml per week'"></span></p>
+                    <p><strong th:utext="#{main.category} + ' '"></strong><span th:text="${flower.flowerType.description}"></span></p>
+                    <p><strong th:utext="#{main.soil} + ' '"></strong><span th:text="${flower.soil}"></span></p>
+                    <p><strong th:utext="#{admin.flower.watering} + ' '"></strong><span th:text="${flower.watering} + ' ' + #{admin.flower.water}"></span></p>
                 </div>
                 <div class="col-xs-6">
-                    <p><strong>Country: </strong><span th:text="${flower.originCountry}"></span></p>
-                    <p><strong>Light: </strong><span th:text="${flower.light} ? 'light-loving plant' : 'dark-loving plant'"></span></p>
-                    <p><strong>Price: </strong><span th:text="${flower.price}"></span></p>
-                    <p><strong>In storage: </strong><span th:text="${flower.storage.count}"></span></p>
+                    <p><strong th:utext="#{admin.country.name} + ' '"></strong><span th:text="${flower.originCountry}"></span></p>
+                    <p><strong th:utext="#{admin.light.name} + ' '"></strong><span th:text="${flower.light} ? #{admin.light.love} : #{admin.dark.love}"></span></p>
+                    <p><strong th:utext="#{admin.price.name} + ' '"></strong><span th:text="${flower.price}"></span></p>
+                    <p><strong th:utext="#{admin.storage.name} + ' '"></strong><span th:text="${flower.storage.count}"></span></p>
                 </div>
             </div>
-            <p><strong>Description: </strong><span th:text="${flower.description}"></span></p>
+            <p><strong th:utext="#{main.description} + ' '"></strong><span th:text="${flower.description}"></span></p>
         </div>
     </div>
 </div>

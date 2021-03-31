@@ -70,7 +70,7 @@ public class OrderController {
         Order order = orderService.findOne(id);
 
         if (order.getUser() != user) {
-            return "badRequest";
+            return "common/badRequest";
         } else {
             model.addAttribute("user", user);
             model.addAttribute("activeOrders", true);

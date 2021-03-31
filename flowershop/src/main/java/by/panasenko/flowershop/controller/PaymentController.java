@@ -67,7 +67,7 @@ public class PaymentController {
     }
 
     @GetMapping("/updateCreditCard")
-    public String updateCreditCard(Model model, Principal principal, @RequestParam("id") Integer id) {
+    public String updateCreditCard(Model model, Principal principal, @RequestParam("id") Integer id) throws ShopException {
         User user = userService.findByEmail(principal.getName());
         Payment userPayment = paymentService.findById(id);
         if(user.getUserInfo().getId() != userPayment.getUserInfo().getId()) {
@@ -83,7 +83,7 @@ public class PaymentController {
     }
 
     @GetMapping("/removeCreditCard")
-    public String removeCreditCard(Model model, Principal principal, @RequestParam("id") Integer id) {
+    public String removeCreditCard(Model model, Principal principal, @RequestParam("id") Integer id) throws ShopException {
         User user = userService.findByEmail(principal.getName());
         Payment userPayment = paymentService.findById(id);
         if(user.getUserInfo().getId() != userPayment.getUserInfo().getId()) {
@@ -114,7 +114,7 @@ public class PaymentController {
 
     @GetMapping("/setPaymentMethod")
     public String setPaymentMethod(@RequestParam("userPaymentId") Integer userPaymentId,
-                                   Principal principal) {
+                                   Principal principal) throws ShopException {
         User user = userService.findByEmail(principal.getName());
         Basket basket = user.getBasket();
         Payment payment = paymentService.findById(userPaymentId);

@@ -12,34 +12,34 @@
         </div>
         <form class="form-horizontal" th:action="@{/addItem}" method="post" enctype="multipart/form-data">
             <fieldset>
-                <legend class="center-block">Add New Flower</legend>
+                <legend class="center-block" data-th-utext="#{main.add.flower}"></legend>
                 <!--Name of Item-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="name">Name of new Item</label>
+                    <label class="col-md-2 control-label" for="name" data-th-utext="#{admin.flower.name}"></label>
                     <div class="col-md-8">
                         <input required type="text" class="form-control" id="name"
                                name="name" th:value="${flower.name}"
-                               placeholder="Name"/>
-                        <span class="help-block">Name</span>
+                               th:placeholder="#{main.name}"/>
+                        <span class="help-block" data-th-utext="#{main.name}"></span>
                     </div>
                 </div>
                 <!--Description-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="description">Description</label>
+                    <label class="col-md-2 control-label" for="description" data-th-utext="#{main.description}"></label>
                     <div class="col-md-8">
                     <textarea required rows="5" class="form-control" id="description"
                               name="description" th:value="${flower.description}"
-                              placeholder="Description"></textarea>
-                        <span class="help-block">Description for the item</span>
+                              th:placeholder="#{main.description}"></textarea>
+                        <span class="help-block" data-th-utext="#{admin.description.item}"></span>
                     </div>
                 </div>
                 <!--Category-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="category">Category</label>
+                    <label class="col-md-2 control-label" for="category" data-th-utext="#{main.category}"></label>
                     <div class="col-md-8">
                         <select required th:field="*{flower.flowerType}" id="category" name="category"
                                 class="form-control">
-                            <option value="" selected="selected" disabled="disabled">Please select a category</option>
+                            <option value="" selected="selected" disabled="disabled" th:text="#{main.category.enter}"></option>
                             <option th:each="flowerType : ${flowerTypeList}" th:value="${flowerType.id}" th:text="${flowerType.description}">
                             </option>
                         </select>
@@ -47,83 +47,83 @@
                 </div>
                 <!--Soil-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="soil">Soil</label>
+                    <label class="col-md-2 control-label" for="soil" data-th-utext="#{main.soil}"></label>
                     <div class="col-md-8">
                         <select required th:value="${flower.soil}" id="soil" name="soil"
                                 class="form-control">
-                            <option value="" selected="selected" disabled="disabled">Please select soil for Item</option>
+                            <option value="" selected="selected" disabled="disabled" th:text="#{main.soil.enter}"></option>
                             <option value="PODZOLIC"
-                                    th:selected="(${flower.soil}=='PODZOLIC')">Подзолистая
+                                    th:selected="(${flower.soil}=='PODZOLIC')" data-th-utext="#{admin.soil.podzolic}">
                             </option>
-                            <option value="SODPODZOLIC" th:selected="(${flower.soil}=='SODPODZOLIC')">Дерново-подзолистая
+                            <option value="SODPODZOLIC" th:selected="(${flower.soil}=='SODPODZOLIC')" data-th-utext="#{admin.soil.sodpodzolic}">
                             </option>
                             <option value="UNPAVED"
-                                    th:selected="(${flower.soil}=='UNPAVED')">Грунтовая
+                                    th:selected="(${flower.soil}=='UNPAVED')" data-th-utext="#{admin.soil.unpaved}">
                             </option>
                         </select>
                     </div>
                 </div>
                 <!--Watering-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="watering">Ml per week</label>
+                    <label class="col-md-2 control-label" for="watering" data-th-utext="#{admin.flower.watering}"></label>
                     <div class="col-md-8">
                         <input th:value="${flower.watering}" type="number" min="0"
                                class="form-control" id="watering" name="watering"
-                               placeholder="How much Ml per week need flower"/>
-                        <span class="help-block">How much Ml per week need flower</span>
+                               th:placeholder="#{admin.flower.amount}"/>
+                        <span class="help-block" data-th-utext="#{admin.flower.amount}"></span>
                     </div>
                 </div>
                 <!--Country-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="country">Origin country of Item</label>
+                    <label class="col-md-2 control-label" for="country" data-th-utext="#{admin.flower.country}"></label>
                     <div class="col-md-8">
                         <input required type="text" class="form-control" id="country"
                                name="originCountry" th:value="${flower.originCountry}"
-                               placeholder="Country"/>
-                        <span class="help-block">Origin country of Item</span>
+                               th:placeholder="#{admin.country.name}"/>
+                        <span class="help-block" data-th-utext="#{admin.flower.country}"></span>
                     </div>
                 </div>
                 <!--Light-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="light">Light</label>
+                    <label class="col-md-2 control-label" for="light" data-th-utext="#{admin.light.name}"></label>
                     <div class="col-md-8">
                         <select th:value="${flower.light}" id="light" name="light"
                                 class="form-control">
-                            <option value="" selected="selected" disabled="disabled">Please select lighting for Item</option>
-                            <option value="1"
-                                    th:selected="(${flower.light}==true)">light-loving plant
+                            <option value="" selected="selected" disabled="disabled" th:text="#{admin.light.select}"></option>
+                            <option value="0"
+                                    th:selected="(${flower.light}==true)" data-th-utext="#{admin.light.love}">
                             </option>
-                            <option value="0" th:selected="(${flower.light}==false)">dark-loving plant
+                            <option value="0" th:selected="(${flower.light}==false)" data-th-utext="#{admin.dark.love}">
                             </option>
                         </select>
                     </div>
                 </div>
                 <!--Price-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="price">Price of Item</label>
+                    <label class="col-md-2 control-label" for="price" data-th-utext="#{admin.flower.price}"></label>
                     <div class="col-md-8">
                         <div class="input-group">
                             <span class="input-group-addon">Br</span>
                             <input th:value="${flower.price}" type="number" step="0.1" min="1"
                                    class="form-control" id="price" name="price"
-                                   placeholder="Price"/>
+                                   th:placeholder="#{admin.price.name}"/>
                         </div>
-                        <span class="help-block">Price of the item</span>
+                        <span class="help-block" data-th-utext="#{admin.flower.price}"></span>
                     </div>
                 </div>
                 <!--In storage-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="count">Number in storage</label>
+                    <label class="col-md-2 control-label" for="count" data-th-utext="#{admin.storage.name}"></label>
                     <div class="col-md-8">
                         <input th:value="${storage.count}" type="number" min="1"
                                class="form-control" id="count" name="count"
-                               placeholder="Number of item in storage"/>
-                        <span class="help-block">Number of item in storage</span>
+                               th:placeholder="#{admin.storage.flower}"/>
+                        <span class="help-block" data-th-utext="#{admin.storage.flower}"></span>
                     </div>
                 </div>
                 <!--Upload image-->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="image">Upload Flower Image</label>
+                    <label class="col-md-2 control-label" for="image" data-th-utext="#{admin.flower.image}"></label>
                     <div class="col-md-8">
                         <input id="image" type="file" name="image"/>
                     </div>
@@ -131,13 +131,14 @@
                 <div class="form-group">
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
-                        <button type="submit" class="btn btn-success">Add Item</button>
-                        <a class="btn btn-danger" th:href="@{/}">Cancel</a>
+                        <button type="submit" class="btn btn-success" data-th-utext="#{main.add.item}"></button>
+                        <a class="btn btn-danger" th:href="@{/}" data-th-utext="#{main.cancel}"></a>
                     </div>
                 </div>
             </fieldset>
         </form>
     </div>
 </div>
+<div th:replace="common/footer :: footer"></div>
 </body>
 </html>

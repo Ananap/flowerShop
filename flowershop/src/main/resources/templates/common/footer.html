@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="footer">
+    <footer class="footer custom-footer">
+        <div class="container">
+            <div class="col-md-5">
+                <h3 style="color: lightgray" class="text-muted">&copy; MY FlowerShop</h3>
+            </div>
+            <div class="col-md-7">
+                <h5 style="color: cornsilk" th:text="#{common.contact}"></h5>
+                <span style="color: cornsilk">+375(33)6109879</span>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

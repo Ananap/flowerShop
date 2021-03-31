@@ -1,2 +1,25 @@
 2021-03-08 11:57:27 INFO  PaymentController:65 - User user added payment
 2021-03-09 19:49:56 INFO  AdminController:82 - Created new account
+2021-03-28 10:21:14 INFO  UserController:150 - User user update info
+2021-03-28 10:21:27 INFO  UserController:150 - User user update info
+2021-03-28 10:21:37 INFO  UserController:150 - User user update info
+2021-03-28 10:25:08 INFO  BasketController:126 - Item Фиалка is added to basket
+2021-03-28 10:25:20 INFO  BasketController:62 - Basket updated
+2021-03-28 10:25:25 INFO  BasketController:62 - Basket updated
+2021-03-28 10:25:34 INFO  BasketController:62 - Basket updated
+2021-03-28 10:45:32 INFO  OrderController:61 - Useruser make an order
+2021-03-28 11:12:55 INFO  BasketController:126 - Item Букет "Зима" is added to basket
+2021-03-30 23:22:48 INFO  BasketController:126 - Item Букет "Зима" is added to basket
+2021-03-30 23:23:30 INFO  OrderController:61 - Useruser make an order
+2021-03-30 23:50:30 INFO  BasketController:126 - Item Гвоздика is added to basket
+2021-03-31 02:13:38 INFO  OrderController:61 - Useruser make an order
+2021-03-31 02:16:19 INFO  BasketController:126 - Item Гвоздика is added to basket
+2021-03-31 02:16:39 INFO  OrderController:61 - Useruser make an order
+2021-03-31 02:17:39 INFO  BasketController:126 - Item Букет "Зима" is added to basket
+2021-03-31 02:18:07 INFO  OrderController:61 - Useruser make an order
+2021-03-31 02:20:33 INFO  BasketController:126 - Item Композиция Оникс is added to basket
+2021-03-31 02:20:56 INFO  OrderController:61 - Useruser make an order
+2021-03-31 02:21:32 INFO  BasketController:126 - Item Композиция Оникс is added to basket
+2021-03-31 02:22:51 INFO  OrderController:61 - Useruser make an order
+2021-03-31 02:24:39 INFO  BasketController:126 - Item Композиция Оникс is added to basket
+2021-03-31 02:25:41 INFO  OrderController:61 - Useruser make an order

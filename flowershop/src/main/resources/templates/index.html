@@ -22,19 +22,19 @@
                             <div class="item active">
                                 <img src="image/im.jpg" alt="...">
                                 <div class="carousel-caption">
-                                    <h3 style="color: darkblue">Цветы в нашем магазине всегда первой свежести. Поставки 2 раза в неделю. Даем гарантию!</h3>
+                                    <h3 style="color: darkblue" th:utext="#{common.index.image1}"></h3>
                                 </div>
                             </div>
                             <div class="item">
                                 <img src="image/tulpany.jpg" alt="...">
                                 <div class="carousel-caption">
-                                    <h3 style="color: darkblue"><span style="background-color: white">Бесплатная доставка по городу при заказе от 70 рублей.</span></h3>
+                                    <h3 style="color: darkblue"><span style="background-color: white" th:utext="#{common.index.image2}"></span></h3>
                                 </div>
                             </div>
                             <div class="item">
                                 <img src="image/im2.jpg" alt="...">
                                 <div class="carousel-caption">
-                                    <h3 style="color: darkblue">Наш ассортимент насчитывает более тысячи различных цветов и растений</h3>
+                                    <h3 style="color: darkblue"><span style="background-color: white" th:utext="#{common.index.image3}"></span></h3>
                                 </div>
                             </div>
                         </div>
@@ -79,5 +79,6 @@
         </div>
     </div>
 </div>
+<div th:replace="common/footer :: footer"></div>
 </body>
 </html>

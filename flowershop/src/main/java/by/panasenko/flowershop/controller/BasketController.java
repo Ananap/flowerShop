@@ -70,7 +70,7 @@ public class BasketController {
                            Principal principal){
         User user = userService.findByEmail(principal.getName());
         if (basketId != user.getBasket().getId()) {
-            return "badRequest";
+            return "common/badRequest";
         }
         List<BasketFlower> basketFlowerList = basketFlowerService.findByBasket(user.getBasket());
         if (basketFlowerList.size() == 0) {

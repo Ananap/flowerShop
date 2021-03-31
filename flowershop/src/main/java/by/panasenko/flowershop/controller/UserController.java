@@ -44,7 +44,7 @@ public class UserController {
             if (passToken == null) {
                 String message = "Invalid token";
                 model.addAttribute("message", message);
-                return "redirect:/badRequest";
+                return "common/badRequest";
             }
             User user = passToken.getUser();
             model.addAttribute("tokenExists", true);
