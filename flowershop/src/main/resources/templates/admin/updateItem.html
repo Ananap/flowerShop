@@ -49,16 +49,16 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="soil" th:utext="#{main.soil}"></label>
                     <div class="col-md-8">
-                        <select th:value="${flower.soil}" id="soil" name="soil"
+                        <select th:value="${flower.soil.value}" id="soil" name="soil"
                                 class="form-control">
                             <option value="" selected="selected" disabled="disabled" th:utext="#{main.soil.enter}"></option>
                             <option value="PODZOLIC"
-                                    th:selected="(${flower.soil}=='PODZOLIC')" th:utext="#{admin.soil.podzolic}">
+                                    th:selected="(${flower.soil.value}=='Подзолистая')" th:utext="#{admin.soil.podzolic}">
                             </option>
-                            <option value="SODPODZOLIC" th:selected="(${flower.soil}=='SODPODZOLIC')" th:utext="#{admin.soil.sodpodzolic}">
+                            <option value="SODPODZOLIC" th:selected="(${flower.soil.value}=='Дерново-подзолистая')" th:utext="#{admin.soil.sodpodzolic}">
                             </option>
                             <option value="UNPAVED"
-                                    th:selected="(${flower.soil}=='UNPAVED')" th:utext="#{admin.soil.unpaved}">
+                                    th:selected="(${flower.soil.value}=='Грунтовая')" th:utext="#{admin.soil.unpaved}">
                             </option>
                         </select>
                     </div>
@@ -90,10 +90,10 @@
                         <select th:value="${flower.light}" id="light" name="light"
                                 class="form-control">
                             <option value="" selected="selected" disabled="disabled" th:utext="#{admin.light.select}"></option>
-                            <option value="1"
+                            <option value="true"
                                     th:selected="(${flower.light}==true)" th:utext="#{admin.light.love}">
                             </option>
-                            <option value="0" th:selected="(${flower.light}==false)" th:utext="#{admin.dark.love}">
+                            <option value="false" th:selected="(${flower.light}==false)" th:utext="#{admin.dark.love}">
                             </option>
                         </select>
                     </div>

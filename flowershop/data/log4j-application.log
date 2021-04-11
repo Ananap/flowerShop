@@ -23,3 +23,27 @@
 2021-03-31 02:22:51 INFO  OrderController:61 - Useruser make an order
 2021-03-31 02:24:39 INFO  BasketController:126 - Item Композиция Оникс is added to basket
 2021-03-31 02:25:41 INFO  OrderController:61 - Useruser make an order
+2021-04-11 14:05:01 INFO  BasketController:127 - Item КОМПОЗИЦИЯ "ЭММА" is added to basket
+2021-04-11 14:05:07 INFO  BasketController:127 - Item КОМПОЗИЦИЯ "ЭММА" is added to basket
+2021-04-11 14:09:22 INFO  BasketController:127 - Item КОМПОЗИЦИЯ "ЭММА" is added to basket
+2021-04-11 14:12:53 INFO  BasketController:127 - Item КОМПОЗИЦИЯ "ЭММА" is added to basket
+2021-04-11 14:20:11 INFO  BasketController:63 - Basket updated
+2021-04-11 14:20:48 INFO  OrderController:66 - Useruser make an order
+2021-04-11 15:46:39 INFO  FlowerController:144 - Add Item success
+2021-04-11 15:51:32 INFO  FlowerController:144 - Add Item success
+2021-04-11 15:53:34 INFO  FlowerController:144 - Add Item success
+2021-04-11 15:53:53 INFO  AdminController:151 - Update item successfully
+2021-04-11 16:38:41 INFO  AdminController:151 - Update item successfully
+2021-04-11 16:38:53 INFO  AdminController:151 - Update item successfully
+2021-04-11 16:41:30 INFO  AdminController:151 - Update item successfully
+2021-04-11 16:50:10 INFO  AdminController:158 - Update item successfully
+2021-04-11 17:10:54 INFO  AdminController:159 - Update item successfully
+2021-04-11 17:14:04 INFO  AdminController:159 - Update item successfully
+2021-04-11 17:17:52 INFO  AdminController:160 - Update item successfully
+2021-04-11 17:21:37 INFO  AdminController:160 - Update item successfully
+2021-04-11 17:24:07 INFO  AdminController:160 - Update item successfully
+2021-04-11 17:26:59 INFO  AdminController:160 - Update item successfully
+2021-04-11 17:28:50 INFO  AdminController:155 - Update item successfully
+2021-04-11 17:29:13 INFO  AdminController:155 - Update item successfully
+2021-04-11 17:43:23 INFO  AdminController:163 - Update item successfully
+2021-04-11 17:44:25 INFO  AdminController:163 - Update item successfully

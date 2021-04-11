@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-xs-6">
                     <p><strong th:utext="#{main.category} + ' '"></strong><span th:text="${flower.flowerType.description}"></span></p>
-                    <p><strong th:utext="#{main.soil} + ' '"></strong><span th:text="${flower.soil}"></span></p>
+                    <p><strong th:utext="#{main.soil} + ' '"></strong><span th:text="${flower.soil.value}"></span></p>
                     <p><strong th:utext="#{admin.flower.watering} + ' '"></strong><span th:text="${flower.watering} + ' ' + #{admin.flower.water}"></span></p>
                 </div>
                 <div class="col-xs-6">

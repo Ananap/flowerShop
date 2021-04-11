@@ -1,4 +1,4 @@
-﻿package by.panasenko.flowershop.util;
+package by.panasenko.flowershop.util;
 
 public final class PagePath {
     public static final String INDEX = "index";
@@ -11,6 +11,7 @@ public final class PagePath {
     public static final String DIRECTION = "direction";
     public static final String FLOWER_DETAIL = "flowerDetail";
     public static final String ORDER_INFO = "admin/orderInfo";
+    public static final String ORDER_INFO_REDIRECT = "redirect:/orderInfo";
     public static final String ADD_ADMIN = "admin/addAdmin";
     public static final String FLOWER_LIST = "admin/flowerList";
     public static final String ITEM_INFO = "admin/itemInfo";
@@ -21,7 +22,9 @@ public final class PagePath {
     public static final String CHECKOUT_REDIRECT_MISS_FIELD = "redirect:/checkout?missingRequiredField=true&id=";
     public static final String FLOWER_LIST_REDIRECT = "redirect:flowerList";
     public static final String FLOWER_DETAIL_REDIRECT = "redirect:/flowerDetail?stock=true&id=";
+    public static final String FLOWER_DETAIL_BASKET = "redirect:/flowerDetail?basket=true&id=";
     public static final String BASKET_REDIRECT = "redirect:basket";
+    public static final String BASKET_FORWARD = "forward:/basket";
     public static final String PROFILE_REDIRECT = "redirect:myProfile";
     public static final String CHECKOUT_REDIRECT = "redirect:/checkout?id=";
 

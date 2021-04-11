@@ -3,6 +3,7 @@ package by.panasenko.flowershop.controller;
 import by.panasenko.flowershop.exception.ShopException;
 import by.panasenko.flowershop.model.Order;
 import by.panasenko.flowershop.model.Status;
+import by.panasenko.flowershop.model.Storage;
 import by.panasenko.flowershop.model.User;
 import by.panasenko.flowershop.model.product.Flower;
 import by.panasenko.flowershop.model.product.FlowerPageCriteria;
@@ -50,6 +51,9 @@ public class AdminController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private StorageService storageService;
+
     @GetMapping("/changeStatus")
     public String changeStatus(@ModelAttribute("id") Integer id,
                                @ModelAttribute("statusOrder") String statusOrder) {
@@ -62,7 +66,7 @@ public class AdminController {
         } else if (order.getStatusOrder() == Status.REJECTED) {
             mailSender.send(user.getEmail(), "My FlowerShop", MailSender.orderRejected(user.getUsername()));
         }
-        return PagePath.ORDER_INFO;
+        return PagePath.ORDER_INFO_REDIRECT;
     }
 
     @GetMapping("/createAdmin")
@@ -125,14 +129,17 @@ public class AdminController {
     @GetMapping("/updateItem")
     public String updateItem(@RequestParam("id") Integer id, Model model) throws ShopException {
         Flower flower = flowerService.findOne(id);
+        Storage storage = flower.getStorage();
         model.addAttribute("flower", flower);
+        model.addAttribute("storage", storage);
         model.addAttribute("flowerTypeList", flowerTypeService.findAll());
         return PagePath.UPDATE_ITEM;
     }
 
     @PostMapping("/updateItem")
     public String updateItemPost(@ModelAttribute("flower") Flower flower,
-                                 @ModelAttribute("image") MultipartFile image) {
+                                 @ModelAttribute("image") MultipartFile image,
+                                 @ModelAttribute("count") Integer count) {
         String name = flower.getId()+".png";
         if (!image.isEmpty()) {
             try {
@@ -148,6 +155,11 @@ public class AdminController {
         }
         flower.setFlowerImage(name);
         flowerService.save(flower);
+        Storage storage = storageService.findByFlower(flower);
+        if (count != storage.getCount()) {
+            storage.setCount(count);
+            storageService.save(storage);
+        }
         logger.info("Update item successfully");
         return PagePath.FLOWER_LIST_REDIRECT;
     }

@@ -76,12 +76,12 @@ public class BasketController {
         List<BasketFlower> basketFlowerList = basketFlowerService.findByBasket(user.getBasket());
         if (basketFlowerList.size() == 0) {
             model.addAttribute("emptyBasket", true);
-            return PagePath.BASKET_REDIRECT;
+            return PagePath.BASKET_FORWARD;
         }
         for (BasketFlower basketFlower : basketFlowerList) {
             if (basketFlower.getFlower().getStorage().getCount() < basketFlower.getCount()) {
                 model.addAttribute("notEnoughStorage", true);
-                return PagePath.BASKET_REDIRECT;
+                return PagePath.BASKET_FORWARD;
             }
         }
         List<Payment> paymentList = user.getUserInfo().getPayments();
@@ -125,7 +125,7 @@ public class BasketController {
         }
         basketService.addFlowerToBasket(flower, user, count);
         logger.info("Item " + flower.getName() + " is added to basket");
-        return PagePath.FLOWER_DETAIL_REDIRECT + flower.getId();
+        return PagePath.FLOWER_DETAIL_BASKET + flower.getId();
     }
 
     @GetMapping("/removeItem")

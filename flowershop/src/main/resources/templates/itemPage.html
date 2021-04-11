@@ -31,8 +31,6 @@
                                 class="form-control">
                             <option th:unless="${flowerTypeSelected != null}" selected disabled th:utext="#{main.category.enter}">
                             </option>
-                            <option th:if="${flowerTypeSelected != null}" th:value="category"
-                                    th:text="${flowerTypeSelected.description}" selected disabled></option>
                             <option th:each="flowerType : ${flowerTypeList}" th:value="${flowerType.id}"
                                     th:text="${flowerType.description}">
                             </option>
@@ -64,6 +62,7 @@
                 </div>
             </form>
         </div>
+        <!--List of flowers-->
         <div class="col-xs-10">
             <div th:if="${emptyList}">
                 <h5 style="font-style: italic">Ooops, no result is found. Try something else)</h5>
@@ -99,6 +98,7 @@
             </table>
         </div>
     </div>
+    <!--Pagination-->
     <div class="pagination-wrapper">
         <div class="items-label">
             <span th:utext="#{admin.flower.total} + ' ' + ${totalItems}"></span>

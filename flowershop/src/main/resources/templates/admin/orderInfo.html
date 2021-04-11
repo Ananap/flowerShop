@@ -4,6 +4,13 @@
 <link rel="stylesheet" href="/css/flower.css">
 <body>
 <div th:replace="common/header :: navbar"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#buttonClear').click(function () {
+            window.location = "[[@{/flowerList}]]";
+        })
+    })
+</script>
 <div class="container">
     <div>
         <form th:action="@{/page}">
@@ -51,6 +58,7 @@
             </tbody>
         </table>
     </div>
+    <!--Pagination-->
     <div class="pagination-wrapper">
         <div class="items-label">
             <span th:utext="#{admin.orders.total} + ' ' + ${totalItems}"></span>
@@ -151,12 +159,5 @@
 
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#buttonClear').click(function () {
-            window.location = "[[@{/flowerList}]]";
-        })
-    })
-</script>
 </body>
 </html>

@@ -15,11 +15,9 @@
                 <span th:utext="#{main.category}"></span>
                 &nbsp;
                 <select id="category" name="category"
-                        class="form-control select-form">
+                        class="form-control">
                     <option th:unless="${flowerTypeSelected != null}" selected disabled th:utext="#{main.category.enter}">
                     </option>
-                    <option th:if="${flowerTypeSelected != null}" th:value="category"
-                            th:text="${flowerTypeSelected.description}" selected disabled></option>
                     <option th:each="flowerType : ${flowerTypeList}" th:value="${flowerType.id}"
                             th:text="${flowerType.description}">
                     </option>
