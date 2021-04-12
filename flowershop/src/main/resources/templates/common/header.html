@@ -67,7 +67,7 @@
                     <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/orderInfo}" data-th-utext="#{main.admin.order}"></a></li>
                     <li><a sec:authorize="hasRole('ROLE_USER')" th:href="@{/basket}" data-th-utext="#{main.basket.title}"></a></li>
                     <li><a sec:authorize="isAnonymous()" th:href="@{/login}" data-th-utext="#{main.account.title}"></a></li>
-                    <li><a sec:authorize="hasRole('ROLE_USER')" th:href="@{/myProfile}" data-th-utext="#{main.account.title}"></a></li>
+                    <li><a sec:authorize="isAuthenticated()" th:href="@{/myProfile}" data-th-utext="#{main.account.title}"></a></li>
                     <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}" data-th-utext="#{main.logout}"></a></li>
                 </ul>
             </div>

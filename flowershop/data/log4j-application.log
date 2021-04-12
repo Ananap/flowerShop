@@ -47,3 +47,28 @@
 2021-04-11 17:29:13 INFO  AdminController:155 - Update item successfully
 2021-04-11 17:43:23 INFO  AdminController:163 - Update item successfully
 2021-04-11 17:44:25 INFO  AdminController:163 - Update item successfully
+2021-04-11 23:24:45 INFO  FlowerController:144 - Add Item success
+2021-04-12 11:34:16 INFO  UserController:151 - User user update info
+2021-04-12 11:34:36 INFO  UserController:151 - User user update info
+2021-04-12 11:34:46 INFO  UserController:151 - User user update info
+2021-04-12 11:36:50 INFO  BasketController:127 - Item АЗАЛИЯ НА ШТАМБЕ (AZALEA STEM) is added to basket
+2021-04-12 11:37:40 INFO  BasketController:127 - Item МИРТОЛИСТНЫЙ ПОМЕРАНЕЦ is added to basket
+2021-04-12 11:38:25 INFO  BasketController:63 - Basket updated
+2021-04-12 11:38:40 INFO  BasketController:63 - Basket updated
+2021-04-12 11:40:28 INFO  OrderController:66 - Useruser make an order
+2021-04-12 11:43:50 INFO  AdminController:163 - Update item successfully
+2021-04-12 12:04:26 INFO  BasketController:127 - Item Бегония Белиф is added to basket
+2021-04-12 12:04:46 INFO  OrderController:66 - Useruser make an order
+2021-04-12 12:27:09 INFO  PaymentController:66 - User user added payment
+2021-04-12 12:27:21 INFO  PaymentController:66 - User user added payment
+2021-04-12 12:27:42 INFO  BasketController:127 - Item Бегония Белиф is added to basket
+2021-04-12 12:31:36 INFO  FlowerController:144 - Add Item success
+2021-04-12 13:35:59 INFO  FlowerController:146 - Add Item success
+2021-04-12 13:55:03 INFO  FlowerController:146 - Add Item success
+2021-04-12 14:38:55 INFO  AdminController:95 - Created new account
+2021-04-12 14:58:19 INFO  BasketController:127 - Item АЗАЛИЯ НА ШТАМБЕ (AZALEA STEM) is added to basket
+2021-04-12 14:58:28 INFO  BasketController:127 - Item АЗАЛИЯ НА ШТАМБЕ (AZALEA STEM) is added to basket
+2021-04-12 14:59:24 INFO  OrderController:66 - Useruser make an order
+2021-04-12 17:16:20 INFO  UserController:116 - Created new account
+2021-04-12 17:17:11 INFO  UserController:151 - User Natasha update info
+2021-04-12 17:19:11 INFO  AdminController:103 - Created new account

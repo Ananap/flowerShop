@@ -3,6 +3,7 @@ package by.panasenko.flowershop.model.security;
 import by.panasenko.flowershop.model.User;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "role")
@@ -12,9 +13,8 @@ public class Role {
     private int id;
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToMany(mappedBy = "role")
+    private List<User> users;
 
     public Role(){}
 
@@ -36,20 +36,21 @@ public class Role {
         this.name = name;
     }
 
-    public User getUser() {
-        return user;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     @Override
     public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", user=" + user +
-                '}';
+        final StringBuilder sb = new StringBuilder("Role{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", users=").append(users);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -69,7 +69,7 @@ public class FlowerServiceImpl implements FlowerService {
         model.addAttribute("sortField", flowerPageCriteria.getSortBy());
         model.addAttribute("sortDir", flowerPageCriteria.getSortDir());
         model.addAttribute("flowerTypeList", flowerTypeList);
-        String reverseSortDir = flowerPageCriteria.getSortDir() == Sort.Direction.ASC ? "asc" : "desc";
+        String reverseSortDir = flowerPageCriteria.getSortDir() == Sort.Direction.ASC ? "DESC" : "ASC";
         model.addAttribute("reverseSortDir", reverseSortDir);
         Integer category = flowerPageCriteria.getFlowerSearchCriteria().getCategory();
         String keyword = flowerPageCriteria.getFlowerSearchCriteria().getKeyword();

@@ -5,7 +5,11 @@ import by.panasenko.flowershop.model.User;
 import by.panasenko.flowershop.model.UserInfo;
 import by.panasenko.flowershop.model.security.PasswordToken;
 import by.panasenko.flowershop.model.security.Role;
-import by.panasenko.flowershop.repository.*;
+import by.panasenko.flowershop.repository.BasketRepository;
+import by.panasenko.flowershop.repository.PasswordTokenRepository;
+import by.panasenko.flowershop.repository.UserInfoRepository;
+import by.panasenko.flowershop.repository.UserRepository;
+import by.panasenko.flowershop.service.RoleService;
 import by.panasenko.flowershop.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
@@ -27,7 +32,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private UserInfoRepository userInfoRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private RoleService roleService;
 
     @Autowired
     private BasketRepository basketRepository;
@@ -44,14 +49,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         passwordTokenRepository.save(myToken);
     }
 
+    @Transactional
     public User createUser (String username, String email, String password, String roleName) {
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt(12)));
-        Role role = new Role(roleName);
-        role.setUser(user);
-        roleRepository.save(role);
+        Role role = roleService.getByName(roleName);
+        user.setRole(role);
         Basket basket = new Basket();
         basket.setUser(user);
         basketRepository.save(basket);

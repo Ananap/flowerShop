@@ -36,6 +36,9 @@
                 <th>
                     <a th:href="@{${url} + ${urlPrefix} + '&sortField=dateDelivery' + ${urlPostfixSort}}" th:utext="#{common.order.delivery}"></a>
                 </th>
+                <th>
+                    <a th:href="@{${url} + ${urlPrefix} + '&sortField=dateOrder' + ${urlPostfixSort}}" th:utext="#{common.order.date}"></a>
+                </th>
                 <th th:utext="#{common.status}"></th>
                 <th th:utext="#{common.detail}"></th>
             </tr>
@@ -52,6 +55,7 @@
                     <span th:unless="${order.payment == null}" th:text="${order.payment.expiryYear}"></span><br/>
                 </td>
                 <td th:text="${order.dateDelivery}"></td>
+                <td th:text="${order.dateOrder}"></td>
                 <td th:text="${order.statusOrder.value}"></td>
                 <td><a th:href="@{/viewDetailOrder(id=${order.id})}" th:utext="#{common.detail}"></a><br/></td>
             </tr>

@@ -24,7 +24,8 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user")
     private Basket basket;
 
-    @OneToOne(mappedBy = "user")
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
     @OneToOne(mappedBy = "user")

@@ -110,7 +110,7 @@ public class OrderServiceImpl implements OrderService {
         model.addAttribute("currentPage", orderPageCriteria.getPageNumber());
         model.addAttribute("sortField", orderPageCriteria.getSortBy());
         model.addAttribute("sortDir", orderPageCriteria.getSortDir());
-        String reverseSortDir = orderPageCriteria.getSortDir() == Sort.Direction.ASC ? "asc" : "desc";
+        String reverseSortDir = orderPageCriteria.getSortDir() == Sort.Direction.ASC ? "desc" : "asc";
         model.addAttribute("reverseSortDir", reverseSortDir);
     }
 

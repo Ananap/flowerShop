@@ -165,8 +165,10 @@
                                                         <div class="panel-heading"><strong th:utext="#{user.delivery.info}"></strong>
                                                         </div>
                                                         <div class="panel-body">
-                                                            <span th:text="${order.dateDelivery}" th:utext="#{user.order.delivery}"></span><br/>
-                                                            <span th:text="${order.timeOrder}" th:utext="#{user.order.time}"></span><br/>
+                                                            <span th:utext="#{user.order.delivery}"></span>
+                                                            <span th:text="${order.dateDelivery}"></span><br/>
+                                                            <span th:utext="#{user.order.time}"></span>
+                                                            <span th:text="${order.timeOrder}"></span><br/>
                                                         </div>
                                                     </div>
                                                 </div>

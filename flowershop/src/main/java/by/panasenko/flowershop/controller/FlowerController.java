@@ -121,6 +121,8 @@ public class FlowerController {
                               @ModelAttribute("storage") Storage storage,
                               @ModelAttribute("image") MultipartFile image,
                               Model model){
+        List<FlowerType> flowerType = flowerTypeService.findAll();
+        model.addAttribute("flowerTypeList", flowerType);
         if (flower.getPrice() < 1 || flower.getWatering() < 1 || storage.getCount() < 1) {
             model.addAttribute("wrongInput", true);
             return PagePath.ADD_ITEM;

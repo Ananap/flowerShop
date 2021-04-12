@@ -50,7 +50,7 @@ public class PageCriteria {
     public static Sort.Direction sortDirection(String sortDir) {
         if (sortDir == null){
             return null;
-        } else if (sortDir.equals("asc")) {
+        } else if (sortDir.equalsIgnoreCase("asc")) {
             return Sort.Direction.ASC;
         } else {
             return Sort.Direction.DESC;

@@ -8,6 +8,7 @@ import by.panasenko.flowershop.model.User;
 import by.panasenko.flowershop.model.product.Flower;
 import by.panasenko.flowershop.model.product.FlowerPageCriteria;
 import by.panasenko.flowershop.model.product.FlowerSearchCriteria;
+import by.panasenko.flowershop.model.security.Role;
 import by.panasenko.flowershop.service.*;
 import by.panasenko.flowershop.util.PagePath;
 import org.apache.log4j.LogManager;
@@ -54,6 +55,9 @@ public class AdminController {
     @Autowired
     private StorageService storageService;
 
+    @Autowired
+    private RoleService roleService;
+
     @GetMapping("/changeStatus")
     public String changeStatus(@ModelAttribute("id") Integer id,
                                @ModelAttribute("statusOrder") String statusOrder) {
@@ -82,8 +86,12 @@ public class AdminController {
             model.addAttribute("usernameExists", true);
             return PagePath.ADD_ADMIN;
         }
-        if(userService.findByEmail(userEmail) != null) {
+        User foundUser = userService.findByEmail(userEmail);
+        if(foundUser != null) {
             model.addAttribute("emailExists", true);
+            Role role = roleService.getByName("ADMIN");
+            foundUser.setRole(role);
+            userService.saveUser(foundUser);
             return PagePath.ADD_ADMIN;
         }
         String password = userService.generateRandomPassword();
