@@ -47,12 +47,6 @@ public class FlowerController {
     @Autowired
     private FlowerTypeService flowerTypeService;
 
-    @GetMapping("/findItem")
-    public String findItem(@ModelAttribute("keyword") String keyword,
-                           Model model) {
-        return listItemPage(model, 1, "name", "asc", 3, keyword, null, null, null);
-    }
-
     @GetMapping("/itemPage")
     public String itemPage(Model model){
         return listItemPage(model, 1, "name", "asc", 3, null, null, null, null);

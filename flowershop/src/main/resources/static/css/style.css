@@ -50,3 +50,11 @@ hr{
 .custom-label {
     margin-left: 25px;
 }
+
+.custom-ajax {
+    position: absolute;
+    min-width: 200px;
+    top: 70px;
+    left: 350px;
+    z-index: 100;
+}

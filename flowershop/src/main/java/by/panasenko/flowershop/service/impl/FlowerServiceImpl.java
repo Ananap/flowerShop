@@ -2,6 +2,7 @@ package by.panasenko.flowershop.service.impl;
 
 import by.panasenko.flowershop.exception.ShopException;
 import by.panasenko.flowershop.model.FlowerType;
+import by.panasenko.flowershop.model.product.AjaxItem;
 import by.panasenko.flowershop.model.product.Flower;
 import by.panasenko.flowershop.model.product.FlowerPageCriteria;
 import by.panasenko.flowershop.repository.FlowerRepository;
@@ -49,6 +50,18 @@ public class FlowerServiceImpl implements FlowerService {
         Sort sort = Sort.by(flowerPageCriteria.getSortDir(), flowerPageCriteria.getSortBy());
         Pageable pageable = PageRequest.of((flowerPageCriteria.getPageNumber() - 1), flowerPageCriteria.getPageSize(), sort);
         return pageable;
+    }
+
+    public List<AjaxItem> findByKeyword(String keyword) {
+        if (keyword.isEmpty()){
+            return null;
+        }
+        List<Object[]> list = flowerRepository.findByKeyword(keyword);
+        List<AjaxItem> resultList = new ArrayList<>();
+        for (Object[] objects : list) {
+            resultList.add(new AjaxItem(objects));
+        }
+        return resultList;
     }
 
     public void fillModel(FlowerPageCriteria flowerPageCriteria, Page<Flower> page, Model model) {
